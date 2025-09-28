@@ -160,8 +160,7 @@ Education experience is displayed in the first tab of the Experiences section. A
                 // If you don't have (or don't want to display) supervisor and/or thesis, the corresponding fields can be deleted
             },
             // If you have multiple experiences at the same institution, you can continue to add here...
-        ],
-        "link": "School homepage link"
+        ]
     },
     // If you have experiences at other schools, you can also continue to add here...
 ]
@@ -185,8 +184,7 @@ Work experience is displayed in the second tab of the Experiences section. Add y
                 // If you don't have (or don't want to display) projects, the corresponding fields can be deleted
             },
             // If you have multiple experiences at the same company, you can continue to add here...
-        ],
-        "link": "Company homepage link"
+        ]
     },
     // If you have experiences at other companies, you can also continue to add here...
 ]
@@ -275,6 +273,7 @@ You can use HTML tags to format the content of news updates. Here are some tags 
 - `<u>underline text</u>`: Underlined text
 - `<strong>bold text</strong>`: Bold text
 - `<br>`: Line break
+- `<a href="website/address" target="_blank">super link</a>`: Insert a super link
 
 ### Adding Teaching Experience
 

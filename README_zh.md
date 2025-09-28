@@ -160,8 +160,7 @@ Personal-Homepage-Template/
                 // 如果没有（或者不愿意展示）导师和/或论文，对应的字段可以删除
             },
             // 如果在同一所院校有多个不同经历，可以在此处继续添加……
-        ],
-        "link": "学校主页链接"
+        ]
     },
     // 如果有在其他学校有不同经历，也可以在此处继续添加……
 ]
@@ -185,8 +184,7 @@ Personal-Homepage-Template/
                 // 如果没有（或者不愿意展示）项目，对应的字段可以删除
             },
             // 如果在同一公司有多个不同经历，可以在此处继续添加……
-        ],
-        "link": "公司主页链接"
+        ]
     },
     // 如果有在其他公司有不同经历，也可以在此处继续添加……
 ]
@@ -275,6 +273,7 @@ Personal-Homepage-Template/
 - `<u>underline text</u>`：下划线文本
 - `<strong>bold text</strong>`：加粗文本
 - `<br>`：换行
+- `<a href="website/address" target="_blank">super link</a>`：插入超链接
 
 ### 添加教学经历
 

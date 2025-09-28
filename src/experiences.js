@@ -1,5 +1,5 @@
 // Written by Constantine Heinrich Chen (ConsHein Chen)
-// Last Change: 2025-09-26
+// Last Change: 2025-09-29
 
 // Experiences section content
 // Chinese text inherits English structure, only differs in nouns and data introduction
@@ -120,7 +120,15 @@ function loadInstitutionExperiencesModules(containerId, language = 'en') {
         const container = document.getElementById(containerId);
         if (!container) return;
         
-        renderModuleContainers(preloadedEducation, 'education', containerId, language, true);
+        // Map the data to the format expected by renderModuleContainers
+        const educationData = preloadedEducation.map(edu => ({
+            school: edu.school,
+            logoSrc: edu.logoSrc,
+            link: edu.link,
+            details: edu.details
+        }));
+        
+        renderModuleContainers(educationData, 'education', containerId, language, true);
     } else {
         // Fall back to fetching content
         const configPath = language === 'zh' ? 
@@ -130,8 +138,13 @@ function loadInstitutionExperiencesModules(containerId, language = 'en') {
         fetch(configPath)
             .then(response => response.json())
             .then(data => {
-                // All education in the current structure are education
-                const educationData = data;
+                // Map the data to the format expected by renderModuleContainers
+                const educationData = data.map(edu => ({
+                    school: edu.school,
+                    logoSrc: edu.logoSrc,
+                    link: edu.link,
+                    details: edu.details
+                }));
                 
                 // Get container element
                 const container = document.getElementById(containerId);
