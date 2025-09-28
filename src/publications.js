@@ -96,12 +96,26 @@ function loadPublicationsContent() {
                 }
             }
             
-            // Force a reflow to ensure all floating elements are properly rendered
+            // Instead of forcing a reflow, we'll use a more targeted approach
+            // to ensure floating elements are properly rendered
             const publicationsSection = document.getElementById('publications');
             if (publicationsSection) {
-                publicationsSection.style.display = 'none';
-                publicationsSection.offsetHeight; // Trigger reflow
-                publicationsSection.style.display = '';
+                // Only trigger a layout recalculation without hiding/showing the entire section
+                const floatingElements = publicationsSection.querySelectorAll('.module-tag, .module-link, .module-footer');
+                floatingElements.forEach(element => {
+                    // Save original styles
+                    const originalDisplay = element.style.display;
+                    const originalOpacity = element.style.opacity;
+                    
+                    // Temporarily change styles to force recalculation
+                    element.style.opacity = '0.99';
+                    
+                    // Force a recalculation for this specific element
+                    element.offsetHeight;
+                    
+                    // Restore original styles
+                    element.style.opacity = originalOpacity;
+                });
             }
         }, 500); // Wait for modules to load
     }, 100);
@@ -184,7 +198,7 @@ function loadAcademicPapersModules(containerId, language = 'en') {
                 });
                 
                 // Render papers for this year
-                renderModuleContainers(academicPapers, 'publication', yearContainer.id, language, true);
+                renderModuleContainers(academicPapers, 'publication', yearContainer.id, language);
             }
         });
     } else {
@@ -259,7 +273,7 @@ function loadAcademicPapersModules(containerId, language = 'en') {
                         });
                         
                         // Render papers for this year
-                        renderModuleContainers(academicPapers, 'publication', yearContainer.id, language, true);
+                        renderModuleContainers(academicPapers, 'publication', yearContainer.id, language);
                     }
                 });
             })
@@ -298,7 +312,7 @@ function loadPatentsModules(containerId, language = 'en') {
                 description: `${patent.type} - ${patent.number}`
             }));
             
-            renderModuleContainers(patentsData, 'patent', containerId, language, true);
+            renderModuleContainers(patentsData, 'patent', containerId, language);
             
             // Show the tab button if it was hidden
             const tabButton = document.querySelector('.tab-button[data-tab="patents"]');
@@ -338,7 +352,7 @@ function loadPatentsModules(containerId, language = 'en') {
                         description: `${patent.type} - ${patent.number}`
                     }));
                     
-                    renderModuleContainers(patentsData, 'patent', containerId, language, true);
+                    renderModuleContainers(patentsData, 'patent', containerId, language);
                     
                     // Show the tab button if it was hidden
                     const tabButton = document.querySelector('.tab-button[data-tab="patents"]');

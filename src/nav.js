@@ -216,14 +216,6 @@ function createNavbar() {
                 // Fade in the target section
     requestAnimationFrame(() => {
         targetSection.style.opacity = '1';
-        
-        // After the content is fully visible, trigger a reflow to ensure floating elements are properly displayed
-        setTimeout(() => {
-            // Force a reflow on the entire section to ensure all floating elements are properly rendered
-            targetSection.style.display = 'none';
-            targetSection.offsetHeight; // Trigger reflow
-            targetSection.style.display = '';
-        }, 300);
     });
             }, 300);
         }

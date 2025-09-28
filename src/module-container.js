@@ -1040,9 +1040,8 @@ function openImageInModal(src, alt) {
  * @param {string} type - The type of modules
  * @param {string} containerId - The ID of the container element
  * @param {string} language - The language code
- * @param {boolean} [forceReflow=false] - Whether to force a reflow after rendering
  */
-function renderModuleContainers(dataArray, type, containerId, language = 'en', forceReflow = false) {
+function renderModuleContainers(dataArray, type, containerId, language = 'en') {
     const container = document.getElementById(containerId);
     if (!container) return;
     
@@ -1101,13 +1100,6 @@ function renderModuleContainers(dataArray, type, containerId, language = 'en', f
             container.style.transition = '';
             container.style.width = '';
             container.style.minHeight = '';
-            
-            // Force a reflow if requested (to ensure floating elements are properly rendered)
-            if (forceReflow) {
-                container.style.display = 'none';
-                container.offsetHeight; // Trigger reflow
-                container.style.display = '';
-            }
         }, 350);
     } else {
         // Add fade out effect
@@ -1128,14 +1120,23 @@ function renderModuleContainers(dataArray, type, containerId, language = 'en', f
             // Fade in new content
             container.style.opacity = '1';
             
-            // Force a reflow if requested (to ensure floating elements are properly rendered)
-            if (forceReflow) {
-                setTimeout(() => {
-                    container.style.display = 'none';
-                    container.offsetHeight; // Trigger reflow
-                    container.style.display = '';
-                }, 100);
-            }
+            // After content is rendered, ensure floating elements are properly displayed
+            setTimeout(() => {
+                const floatingElements = container.querySelectorAll('.module-tag, .module-link, .module-footer');
+                floatingElements.forEach(element => {
+                    // Save original opacity
+                    const originalOpacity = element.style.opacity || '1';
+                    
+                    // Temporarily change opacity to force recalculation
+                    element.style.opacity = '0.99';
+                    
+                    // Force a recalculation for this specific element
+                    element.offsetHeight;
+                    
+                    // Restore original opacity
+                    element.style.opacity = originalOpacity;
+                });
+            }, 100);
         }, 300);
     }
 }
