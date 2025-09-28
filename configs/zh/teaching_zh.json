@@ -1,0 +1,18 @@
+[
+    {
+        "school": "清华大学",
+        "course": "运动控制基础",
+        "code": "ME401",
+        "identity": "助教",
+        "season": "秋季",
+        "year": "2025"
+    },
+    {
+        "school": "清华大学",
+        "course": "机器人学导论",
+        "code": "ME501",
+        "identity": "助教",
+        "season": "秋季",
+        "year": "2025"
+    }
+]

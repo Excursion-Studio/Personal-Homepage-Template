@@ -1,0 +1,18 @@
+[
+    {
+        "school": "Tsinghua University",
+        "course": "The fundamental of motion control",
+        "code": "ME401",
+        "identity": "Teaching Assistant",
+        "season": "Fall",
+        "year": "2025"
+    },
+    {
+        "school": "Tsinghua University",
+        "course": "Introduction to Robotics",
+        "code": "ME501",
+        "identity": "Teaching Assistant",
+        "season": "Fall",
+        "year": "2025"
+    }
+]

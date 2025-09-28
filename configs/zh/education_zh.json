@@ -1,0 +1,18 @@
+[
+  {
+    "logoSrc": "THU_logo.png",
+    "school": "清华大学",
+    "details": 
+    [
+      {
+        "degree": "工学学士",
+        "major": "机械工程", 
+        "college": "机械工程学院",
+        "time": "2021.9 - 2025.6",
+        "tutor": "Prof. X. Y. Z.",
+        "dissertation": "Title of Dissertation"
+      }
+    ],
+    "link": "https://www.thu.edu.cn/"
+  }
+]
