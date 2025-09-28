@@ -1,5 +1,5 @@
 // Written by Constantine Heinrich Chen (ConsHein Chen)
-// Last Change: 2025-09-26
+// Last Change: 2025-09-29
 
 // Language management module
 
@@ -124,6 +124,16 @@ async function preloadAllContent() {
         
         isContentPreloaded = true;
         console.log('All content preloaded successfully');
+        
+        // After preloading is complete, check tab visibility
+        setTimeout(() => {
+            if (typeof checkExperiencesTabVisibility === 'function') {
+                checkExperiencesTabVisibility();
+            }
+            if (typeof checkPublicationsTabVisibility === 'function') {
+                checkPublicationsTabVisibility();
+            }
+        }, 200);
     } catch (error) {
         console.error('Error preloading content:', error);
         // If preloading fails, we'll fall back to the original behavior
@@ -136,6 +146,28 @@ document.addEventListener('DOMContentLoaded', function() {
     loadConfig();
     // Start preloading content after a short delay to not block initial page load
     setTimeout(preloadAllContent, 500);
+    
+    // Add event listener for when preloading is complete
+    // This will ensure tab visibility is updated after content is loaded
+    const originalPreloadAllContent = preloadAllContent;
+    window.preloadAllContent = async function() {
+        await originalPreloadAllContent();
+        
+        // After preloading is complete, update tab visibility for all sections
+        setTimeout(() => {
+            // Update experiences section tab visibility
+            const experiencesSection = document.getElementById('experiences');
+            if (experiencesSection && typeof checkExperiencesTabVisibility === 'function') {
+                checkExperiencesTabVisibility();
+            }
+            
+            // Update publications section tab visibility
+            const publicationsSection = document.getElementById('publications');
+            if (publicationsSection && typeof checkPublicationsTabVisibility === 'function') {
+                checkPublicationsTabVisibility();
+            }
+        }, 200);
+    };
 });
 
 // Language Texts - Chinese text inherits English structure, only differs in nouns and data introduction

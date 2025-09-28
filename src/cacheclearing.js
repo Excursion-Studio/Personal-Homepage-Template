@@ -1,5 +1,5 @@
 // Written by Constantine Heinrich Chen (ConsHein Chen)
-// Last Change: 2025-09-19
+// Last Change: 2025-09-29
 
 // Cache clearing module
 // This module provides functions to clear page cache to ensure proper language switching and page transitions
@@ -8,90 +8,171 @@
 let lastLanguageChangeTime = 0;
 const MIN_LANGUAGE_CHANGE_INTERVAL = 2000; // Increased to 2 seconds minimum between language changes
 
-/**
- * Clears page cache to ensure fresh content loading
- * This is a comprehensive version that clears all caches and reloads resources
- */
-function clearPageCache() {
-  // Clear any cached fetch requests
-  if ('caches' in window) {
-    caches.keys().then(cacheNames => {
-      cacheNames.forEach(cacheName => {
-        caches.delete(cacheName);
-      });
-    });
-  }
-  
-  // Don't force reload of all external resources to avoid style flickering
-  // Instead, we'll just clear the module containers to force content reload
-  // This prevents the white flash caused by style reloading
-  
-  // Clear any module containers to force reload
-  const moduleContainers = document.querySelectorAll('.modules-container');
-  moduleContainers.forEach(container => {
-    container.innerHTML = '';
-  });
-  
-  // After clearing cache, we need to recheck and hide empty modules
-  // This ensures that modules that were relying on preloaded content
-  // are properly hidden when the cache is cleared
-  setTimeout(() => {
-    // Check experiences section modules
+// Function to check if a container has any content
+function hasContent(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return false;
+    
+    // Check if container has any child elements
+    return container.children.length > 0;
+}
+
+// Function to check and hide tabs for experiences section
+function checkExperiencesTabVisibility() {
+    // Check if experiences section exists
     const experiencesSection = document.getElementById('experiences');
-    if (experiencesSection) {
-      const lang = getCurrentLanguage();
-      
-      // Check employment content
-      const employmentData = getPreloadedContent ? getPreloadedContent('employment', lang) : null;
-      if (!employmentData || (Array.isArray(employmentData) && employmentData.length === 0)) {
-        const employmentTab = experiencesSection.querySelector('.tab-button[data-tab="employment"]');
-        if (employmentTab && employmentTab.style.display !== 'none') {
-          employmentTab.style.display = 'none';
-        }
-      }
-      
-      // Check honors content
-      const honorsData = getPreloadedContent ? getPreloadedContent('honors', lang) : null;
-      if (!honorsData || (Array.isArray(honorsData) && honorsData.length === 0)) {
-        const honorsTab = experiencesSection.querySelector('.tab-button[data-tab="honors-awards"]');
-        if (honorsTab && honorsTab.style.display !== 'none') {
-          honorsTab.style.display = 'none';
-        }
-      }
-      
-      // Check teaching content
-      const teachingData = getPreloadedContent ? getPreloadedContent('teaching', lang) : null;
-      if (!teachingData || (Array.isArray(teachingData) && teachingData.length === 0)) {
-        const teachingTab = experiencesSection.querySelector('.tab-button[data-tab="teaching"]');
-        if (teachingTab && teachingTab.style.display !== 'none') {
-          teachingTab.style.display = 'none';
-        }
-      }
-      
-      // Check reviewer content
-      const reviewerData = getPreloadedContent ? getPreloadedContent('reviewer', lang) : null;
-      if (!reviewerData || (Array.isArray(reviewerData) && reviewerData.length === 0)) {
-        const reviewerTab = experiencesSection.querySelector('.tab-button[data-tab="reviewer"]');
-        if (reviewerTab && reviewerTab.style.display !== 'none') {
-          reviewerTab.style.display = 'none';
-        }
-      }
+    if (!experiencesSection) return;
+    
+    // Get tab buttons
+    const educationTab = document.querySelector('.tab-button[data-tab="education"]');
+    const employmentTab = document.querySelector('.tab-button[data-tab="employment"]');
+    const honorsTab = document.querySelector('.tab-button[data-tab="honors-awards"]');
+    const teachingTab = document.querySelector('.tab-button[data-tab="teaching"]');
+    const reviewerTab = document.querySelector('.tab-button[data-tab="reviewer"]');
+    
+    // Check content and hide tabs if needed
+    if (educationTab && !hasContent('education-container')) {
+        educationTab.style.display = 'none';
     }
     
-    // Check publications section modules
-    const publicationsSection = document.getElementById('publications');
-    if (publicationsSection) {
-      const lang = getCurrentLanguage();
-      const patentsData = getPreloadedContent ? getPreloadedContent('patents', lang) : null;
-      if (!patentsData || (Array.isArray(patentsData) && patentsData.length === 0) || 
-          (patentsData && patentsData.patents && Array.isArray(patentsData.patents) && patentsData.patents.length === 0)) {
-        const patentsTab = publicationsSection.querySelector('.tab-button[data-tab="patents"]');
-        if (patentsTab && patentsTab.style.display !== 'none') {
-          patentsTab.style.display = 'none';
-        }
-      }
+    if (employmentTab && !hasContent('employment-container')) {
+        employmentTab.style.display = 'none';
     }
-  }, 300); // Wait a bit for the cache to be cleared
+    
+    if (honorsTab && !hasContent('honors-awards-container')) {
+        honorsTab.style.display = 'none';
+    }
+    
+    if (teachingTab && !hasContent('teaching-container')) {
+        teachingTab.style.display = 'none';
+    }
+    
+    if (reviewerTab && !hasContent('reviewer-container')) {
+        reviewerTab.style.display = 'none';
+    }
+    
+    // If all tabs are hidden, hide the entire experiences section
+    const allTabs = [educationTab, employmentTab, honorsTab, teachingTab, reviewerTab];
+    const visibleTabs = allTabs.filter(tab => tab && tab.style.display !== 'none');
+    
+    if (visibleTabs.length === 0) {
+        experiencesSection.style.display = 'none';
+    }
+}
+
+// Function to check and hide tabs for publications section
+function checkPublicationsTabVisibility() {
+    // Check if publications section exists
+    const publicationsSection = document.getElementById('publications');
+    if (!publicationsSection) return;
+    
+    // Get tab buttons
+    const articlesTab = document.querySelector('.tab-button[data-tab="articles"]');
+    const preprintsTab = document.querySelector('.tab-button[data-tab="preprints"]');
+    const conferencesTab = document.querySelector('.tab-button[data-tab="conferences"]');
+    const patentsTab = document.querySelector('.tab-button[data-tab="patents"]');
+    const datasetsTab = document.querySelector('.tab-button[data-tab="datasets"]');
+    
+    // Check content and hide tabs if needed
+    if (articlesTab && !hasContent('articles-container')) {
+        articlesTab.style.display = 'none';
+    }
+    
+    if (preprintsTab && !hasContent('preprints-container')) {
+        preprintsTab.style.display = 'none';
+    }
+    
+    if (conferencesTab && !hasContent('conferences-container')) {
+        conferencesTab.style.display = 'none';
+    }
+    
+    if (patentsTab && !hasContent('patents-container')) {
+        patentsTab.style.display = 'none';
+    }
+    
+    if (datasetsTab && !hasContent('datasets-container')) {
+        datasetsTab.style.display = 'none';
+    }
+    
+    // If all tabs are hidden, hide the entire publications section
+    const allTabs = [articlesTab, preprintsTab, conferencesTab, patentsTab, datasetsTab];
+    const visibleTabs = allTabs.filter(tab => tab && tab.style.display !== 'none');
+    
+    if (visibleTabs.length === 0) {
+        publicationsSection.style.display = 'none';
+    }
+}
+
+/**
+ * Clears page cache to ensure fresh content loading
+ */
+function clearPageCache() {
+    console.log('Clearing page cache...');
+    
+    // Clear fetch cache
+    if ('caches' in window) {
+        caches.keys().then(cacheNames => {
+            cacheNames.forEach(cacheName => {
+                caches.delete(cacheName);
+                console.log('Deleted cache:', cacheName);
+            });
+        });
+    }
+
+    // Clear module containers
+    const moduleContainers = document.querySelectorAll('.modules-container');
+    moduleContainers.forEach(container => {
+        container.innerHTML = '';
+    });
+
+    // Reset preloaded content
+    if (typeof preloadedContent !== 'undefined') {
+        // Clear the preloaded content object
+        for (let key in preloadedContent) {
+            if (preloadedContent.hasOwnProperty(key)) {
+                delete preloadedContent[key];
+            }
+        }
+        console.log('Preloaded content cleared');
+    }
+
+    // Reset content preloaded flag
+    if (typeof isContentPreloaded !== 'undefined') {
+        isContentPreloaded = false;
+        console.log('Content preloaded flag reset');
+    }
+
+    // Check and hide tabs for experiences and publications sections after a delay
+    setTimeout(() => {
+        // Use the global functions if available
+        if (typeof checkExperiencesTabVisibility === 'function') {
+            checkExperiencesTabVisibility();
+            console.log('Experiences tab visibility checked');
+        }
+        
+        if (typeof checkPublicationsTabVisibility === 'function') {
+            checkPublicationsTabVisibility();
+            console.log('Publications tab visibility checked');
+        }
+        
+        // Trigger content preloading again after a short delay
+        if (typeof preloadAllContent === 'function') {
+            setTimeout(() => {
+                preloadAllContent().then(() => {
+                    console.log('Content preloading triggered after cache clear');
+                    // Check tab visibility again after preloading
+                    setTimeout(() => {
+                        if (typeof checkExperiencesTabVisibility === 'function') {
+                            checkExperiencesTabVisibility();
+                        }
+                        if (typeof checkPublicationsTabVisibility === 'function') {
+                            checkPublicationsTabVisibility();
+                        }
+                    }, 500);
+                });
+            }, 100);
+        }
+    }, 300);
 }
 
 /**
@@ -220,3 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
 window.clearPageCache = clearPageCache;
 window.initializeCacheClearing = initializeCacheClearing;
 window.forcePageReload = forcePageReload;
+window.hasContent = hasContent;
+window.checkExperiencesTabVisibility = checkExperiencesTabVisibility;
+window.checkPublicationsTabVisibility = checkPublicationsTabVisibility;

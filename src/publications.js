@@ -1,43 +1,51 @@
 // Written by Constantine Heinrich Chen (ConsHein Chen)
-// Last Change: 2025-09-19
+// Last Change: 2025-09-29
 
 // Publications section content
 // Chinese text inherits English structure, only differs in nouns and data introduction
 // Function to check and update tab visibility based on content
 function checkPublicationsTabVisibility() {
-    // Check if academic-papers tab should be hidden
-    const academicPapersContainer = document.getElementById('academic-papers-modules-container');
-    if (academicPapersContainer && academicPapersContainer.children.length === 0) {
-        const academicPapersTab = document.querySelector('.tab-button[data-tab="academic-papers"]');
-        if (academicPapersTab) {
-            academicPapersTab.style.display = 'none';
-        }
-    } else {
-        const academicPapersTab = document.querySelector('.tab-button[data-tab="academic-papers"]');
-        if (academicPapersTab) {
-            academicPapersTab.style.display = '';
-        }
+    // Check if publications section exists
+    const publicationsSection = document.getElementById('publications');
+    if (!publicationsSection) return;
+    
+    // Get tab buttons
+    const articlesTab = document.querySelector('.tab-button[data-tab="articles"]');
+    const preprintsTab = document.querySelector('.tab-button[data-tab="preprints"]');
+    const conferencesTab = document.querySelector('.tab-button[data-tab="conferences"]');
+    const patentsTab = document.querySelector('.tab-button[data-tab="patents"]');
+    const datasetsTab = document.querySelector('.tab-button[data-tab="datasets"]');
+    
+    // Check content and hide tabs if needed
+    if (articlesTab && !hasContent('articles-container')) {
+        articlesTab.style.display = 'none';
     }
     
-    // Check if patents tab should be hidden
-    const patentsContainer = document.getElementById('patents-modules-container');
-    if (patentsContainer && patentsContainer.children.length === 0) {
-        const patentsTab = document.querySelector('.tab-button[data-tab="patents"]');
-        if (patentsTab) {
-            patentsTab.style.display = 'none';
-        }
-    } else {
-        const patentsTab = document.querySelector('.tab-button[data-tab="patents"]');
-        if (patentsTab) {
-            patentsTab.style.display = '';
-        }
+    if (preprintsTab && !hasContent('preprints-container')) {
+        preprintsTab.style.display = 'none';
+    }
+    
+    if (conferencesTab && !hasContent('conferences-container')) {
+        conferencesTab.style.display = 'none';
+    }
+    
+    if (patentsTab && !hasContent('patents-container')) {
+        patentsTab.style.display = 'none';
+    }
+    
+    if (datasetsTab && !hasContent('datasets-container')) {
+        datasetsTab.style.display = 'none';
+    }
+    
+    // If all tabs are hidden, hide the entire publications section
+    const allTabs = [articlesTab, preprintsTab, conferencesTab, patentsTab, datasetsTab];
+    const visibleTabs = allTabs.filter(tab => tab && tab.style.display !== 'none');
+    
+    if (visibleTabs.length === 0) {
+        publicationsSection.style.display = 'none';
     }
     
     // Ensure at least one tab is active and visible
-    const visibleTabs = Array.from(document.querySelectorAll('.tab-button')).filter(tab => 
-        tab.style.display !== 'none'
-    );
-    
     if (visibleTabs.length > 0) {
         // Check if the currently active tab is visible
         const activeTab = document.querySelector('.tab-button.active');
@@ -67,91 +75,139 @@ function checkPublicationsTabVisibility() {
 
 // Function to load publications content
 function loadPublicationsContent() {
-    const currentLang = getCurrentLanguage();
+    // Create publications section
+    const publicationsSection = document.createElement('div');
+    publicationsSection.id = 'publications-content';
     
-    // Create a container for the modules with tabs
-    let content = `
-        <div class="section-title">
-            <h2>${getText('publications')}</h2>
-        </div>
-        <div class="tabs-container">
-            <div class="tabs">
-                <button class="tab-button active" data-tab="academic-papers">${getText('academicPapers')}</button>
-                <button class="tab-button" data-tab="patents">${getText('patents')}</button>
-            </div>
-            <div class="tab-content">
-                <div id="academic-papers" class="tab-pane active">
-                    <div id="academic-papers-modules-container"></div>
-                </div>
-                <div id="patents" class="tab-pane">
-                    <div id="patents-modules-container"></div>
-                </div>
-            </div>
-        </div>
-    `;
+    // Create tab buttons container
+    const tabButtonsContainer = document.createElement('div');
+    tabButtonsContainer.className = 'tab-buttons-container';
     
-    // Load modules after the content is added to the DOM
+    // Create tab buttons
+    const articlesTab = document.createElement('button');
+    articlesTab.className = 'tab-button active';
+    articlesTab.setAttribute('data-tab', 'articles');
+    articlesTab.textContent = getText('articles');
+    
+    const preprintsTab = document.createElement('button');
+    preprintsTab.className = 'tab-button';
+    preprintsTab.setAttribute('data-tab', 'preprints');
+    preprintsTab.textContent = getText('preprints');
+    
+    const conferencesTab = document.createElement('button');
+    conferencesTab.className = 'tab-button';
+    conferencesTab.setAttribute('data-tab', 'conferences');
+    conferencesTab.textContent = getText('conferences');
+    
+    const patentsTab = document.createElement('button');
+    patentsTab.className = 'tab-button';
+    patentsTab.setAttribute('data-tab', 'patents');
+    patentsTab.textContent = getText('patents');
+    
+    const datasetsTab = document.createElement('button');
+    datasetsTab.className = 'tab-button';
+    datasetsTab.setAttribute('data-tab', 'datasets');
+    datasetsTab.textContent = getText('datasets');
+    
+    // Add tab buttons to container
+    tabButtonsContainer.appendChild(articlesTab);
+    tabButtonsContainer.appendChild(preprintsTab);
+    tabButtonsContainer.appendChild(conferencesTab);
+    tabButtonsContainer.appendChild(patentsTab);
+    tabButtonsContainer.appendChild(datasetsTab);
+    
+    // Create tab content container
+    const tabContentContainer = document.createElement('div');
+    tabContentContainer.className = 'tab-content-container';
+    
+    // Create tab panes
+    const articlesPane = document.createElement('div');
+    articlesPane.id = 'articles';
+    articlesPane.className = 'tab-pane active';
+    articlesPane.innerHTML = `<div id="articles-container" class="modules-container"></div>`;
+    
+    const preprintsPane = document.createElement('div');
+    preprintsPane.id = 'preprints';
+    preprintsPane.className = 'tab-pane';
+    preprintsPane.innerHTML = `<div id="preprints-container" class="modules-container"></div>`;
+    
+    const conferencesPane = document.createElement('div');
+    conferencesPane.id = 'conferences';
+    conferencesPane.className = 'tab-pane';
+    conferencesPane.innerHTML = `<div id="conferences-container" class="modules-container"></div>`;
+    
+    const patentsPane = document.createElement('div');
+    patentsPane.id = 'patents';
+    patentsPane.className = 'tab-pane';
+    patentsPane.innerHTML = `<div id="patents-container" class="modules-container"></div>`;
+    
+    const datasetsPane = document.createElement('div');
+    datasetsPane.id = 'datasets';
+    datasetsPane.className = 'tab-pane';
+    datasetsPane.innerHTML = `<div id="datasets-container" class="modules-container"></div>`;
+    
+    // Add tab panes to container
+    tabContentContainer.appendChild(articlesPane);
+    tabContentContainer.appendChild(preprintsPane);
+    tabContentContainer.appendChild(conferencesPane);
+    tabContentContainer.appendChild(patentsPane);
+    tabContentContainer.appendChild(datasetsPane);
+    
+    // Add tab buttons and content to publications section
+    publicationsSection.appendChild(tabButtonsContainer);
+    publicationsSection.appendChild(tabContentContainer);
+    
+    // Check tab visibility before loading content
+    checkPublicationsTabVisibility();
+    
+    // Load content for each tab with a delay to ensure proper rendering
     setTimeout(() => {
-        // First, check if we need to hide any tabs based on preloaded content
-        checkPublicationsTabVisibility();
+        const lang = getCurrentLanguage();
+        loadArticlesModules('articles-container', lang);
+        loadPreprintsModules('preprints-container', lang);
+        loadConferencesModules('conferences-container', lang);
+        loadPatentsModules('patents-container', lang);
+        loadDatasetsModules('datasets-container', lang);
         
-        loadAcademicPapersModules('academic-papers-modules-container', currentLang);
-        loadPatentsModules('patents-modules-container', currentLang);
-        
-        // Add tab switching functionality
-        const tabButtons = document.querySelectorAll('.tab-button');
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons and panes
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.tab-pane').forEach(pane => {
-                    pane.classList.remove('active');
-                });
-                
-                // Add active class to clicked button and corresponding pane
-                button.classList.add('active');
-                const tabId = button.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-                
-                // Store the active tab state
-                if (typeof activeTabStates !== 'undefined') {
-                    activeTabStates.publications = tabId;
-                }
-            });
-        });
-        
-        // After loading all modules, check if we need to hide any tabs
+        // Check tab visibility again after loading content
         setTimeout(() => {
             checkPublicationsTabVisibility();
             
-            // After language update, ensure floating elements are properly displayed
-            const publicationsSection = document.getElementById('publications');
-            if (publicationsSection) {
-                const floatingElements = publicationsSection.querySelectorAll('.module-tag, .module-link, .module-footer');
-                floatingElements.forEach(element => {
-                    // Save original styles
-                    const originalDisplay = element.style.display;
-                    const originalOpacity = element.style.opacity;
-                    
-                    // Temporarily change styles to force recalculation
-                    element.style.opacity = '0.99';
-                    
-                    // Force a recalculation for this specific element
-                    element.offsetHeight;
-                    
-                    // Restore original styles
-                    element.style.opacity = originalOpacity;
-                });
+            // Rearrange floating elements if needed
+            if (typeof rearrangeFloatingElements === 'function') {
+                rearrangeFloatingElements();
             }
-            
-            // Re-check tab visibility after language change
-            setTimeout(() => {
-                checkPublicationsTabVisibility();
-            }, 100);
-        }, 500); // Wait for modules to load
+        }, 500);
     }, 100);
     
-    return content;
+    // Add event listeners for tab switching
+    tabButtonsContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('tab-button')) {
+            // Remove active class from all buttons and panes
+            tabButtonsContainer.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            tabContentContainer.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding pane
+            e.target.classList.add('active');
+            const tabId = e.target.getAttribute('data-tab');
+            const tabPane = document.getElementById(tabId);
+            if (tabPane) {
+                tabPane.classList.add('active');
+            }
+            
+            // Update the stored state
+            if (typeof activeTabStates !== 'undefined') {
+                activeTabStates['publications'] = tabId;
+            }
+            
+            // Rearrange floating elements if needed
+            if (typeof rearrangeFloatingElements === 'function') {
+                setTimeout(rearrangeFloatingElements, 100);
+            }
+        }
+    });
+    
+    return publicationsSection.outerHTML;
 }
 
 /**

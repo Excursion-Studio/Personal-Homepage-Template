@@ -1,5 +1,5 @@
 // Written by Constantine Heinrich Chen (ConsHein Chen)
-// Last Change: 2025-09-19
+// Last Change: 2025-09-29
 
 // Navigation functionality
 // English text structure is used across all languages
@@ -152,17 +152,26 @@ function createNavbar() {
                 }
                 
                 // Add to main content area
-                let mainContent = document.getElementById('main-content');
-                if (!mainContent) {
-                    mainContent = document.querySelector('#main-content .content-wrapper');
+            let mainContent = document.getElementById('main-content');
+            if (!mainContent) {
+                mainContent = document.querySelector('#main-content .content-wrapper');
+            }
+            if (!mainContent) {
+                mainContent = document.querySelector('.content-wrapper');
+            }
+            if (!mainContent) {
+                mainContent = document.body;
+            }
+            mainContent.appendChild(targetSection);
+            
+            // After adding the section, check tab visibility
+            setTimeout(() => {
+                if (targetId === 'experiences') {
+                    checkExperiencesTabVisibility();
+                } else if (targetId === 'publications') {
+                    checkPublicationsTabVisibility();
                 }
-                if (!mainContent) {
-                    mainContent = document.querySelector('.content-wrapper');
-                }
-                if (!mainContent) {
-                    mainContent = document.body;
-                }
-                mainContent.appendChild(targetSection);
+            }, 500);
             }
             
             // Hide all sections with a fade out effect
