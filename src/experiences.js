@@ -1,6 +1,96 @@
 // Written by Constantine Heinrich Chen (ConsHein Chen)
 // Last Change: 2025-09-26
 
+// Function to check and update tab visibility based on content
+function checkExperiencesTabVisibility() {
+    // Check if employment tab should be hidden
+    const employmentContainer = document.getElementById('employment-modules-container');
+    if (employmentContainer && employmentContainer.children.length === 0) {
+        const employmentTab = document.querySelector('.tab-button[data-tab="employment"]');
+        if (employmentTab) {
+            employmentTab.style.display = 'none';
+        }
+    } else {
+        const employmentTab = document.querySelector('.tab-button[data-tab="employment"]');
+        if (employmentTab) {
+            employmentTab.style.display = '';
+        }
+    }
+    
+    // Check if honors-awards tab should be hidden
+    const honorsContainer = document.getElementById('honors-awards-modules-container');
+    if (honorsContainer && honorsContainer.children.length === 0) {
+        const honorsTab = document.querySelector('.tab-button[data-tab="honors-awards"]');
+        if (honorsTab) {
+            honorsTab.style.display = 'none';
+        }
+    } else {
+        const honorsTab = document.querySelector('.tab-button[data-tab="honors-awards"]');
+        if (honorsTab) {
+            honorsTab.style.display = '';
+        }
+    }
+    
+    // Check if teaching tab should be hidden
+    const teachingContainer = document.getElementById('teaching-modules-container');
+    if (teachingContainer && teachingContainer.children.length === 0) {
+        const teachingTab = document.querySelector('.tab-button[data-tab="teaching"]');
+        if (teachingTab) {
+            teachingTab.style.display = 'none';
+        }
+    } else {
+        const teachingTab = document.querySelector('.tab-button[data-tab="teaching"]');
+        if (teachingTab) {
+            teachingTab.style.display = '';
+        }
+    }
+    
+    // Check if reviewer tab should be hidden
+    const reviewerContainer = document.getElementById('reviewer-modules-container');
+    if (reviewerContainer && reviewerContainer.children.length === 0) {
+        const reviewerTab = document.querySelector('.tab-button[data-tab="reviewer"]');
+        if (reviewerTab) {
+            reviewerTab.style.display = 'none';
+        }
+    } else {
+        const reviewerTab = document.querySelector('.tab-button[data-tab="reviewer"]');
+        if (reviewerTab) {
+            reviewerTab.style.display = '';
+        }
+    }
+    
+    // Ensure at least one tab is active and visible
+    const visibleTabs = Array.from(document.querySelectorAll('.tab-button')).filter(tab => 
+        tab.style.display !== 'none'
+    );
+    
+    if (visibleTabs.length > 0) {
+        // Check if the currently active tab is visible
+        const activeTab = document.querySelector('.tab-button.active');
+        if (activeTab && activeTab.style.display === 'none') {
+            // If active tab is hidden, activate the first visible tab
+            activeTab.classList.remove('active');
+            const firstVisibleTab = visibleTabs[0];
+            firstVisibleTab.classList.add('active');
+            
+            // Also activate the corresponding pane
+            const tabId = firstVisibleTab.getAttribute('data-tab');
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            const targetPane = document.getElementById(tabId);
+            if (targetPane) {
+                targetPane.classList.add('active');
+            }
+            
+            // Update the stored state
+            if (typeof activeTabStates !== 'undefined') {
+                activeTabStates.experiences = tabId;
+            }
+        }
+    }
+}
+
 // Experiences section content
 // Chinese text inherits English structure, only differs in nouns and data introduction
 function loadExperiencesContent() {
@@ -41,6 +131,9 @@ function loadExperiencesContent() {
     
     // Load modules after the content is added to the DOM
     setTimeout(() => {
+        // First, check if we need to hide any tabs based on preloaded content
+        checkExperiencesTabVisibility();
+        
         loadInstitutionExperiencesModules('education-modules-container', currentLang);
         loadEmploymentModules('employment-modules-container', currentLang);
         loadHonorsAwardsModules('honors-awards-modules-container', currentLang);
@@ -49,78 +142,11 @@ function loadExperiencesContent() {
         
         // After loading all modules, check if we need to hide any tabs
         setTimeout(() => {
-            // Check if employment tab should be hidden
-            const employmentContainer = document.getElementById('employment-modules-container');
-            if (employmentContainer && employmentContainer.children.length === 0) {
-                const employmentTab = document.querySelector('.tab-button[data-tab="employment"]');
-                if (employmentTab) {
-                    employmentTab.style.display = 'none';
-                }
-            }
+            checkExperiencesTabVisibility();
             
-            // Check if honors-awards tab should be hidden
-            const honorsContainer = document.getElementById('honors-awards-modules-container');
-            if (honorsContainer && honorsContainer.children.length === 0) {
-                const honorsTab = document.querySelector('.tab-button[data-tab="honors-awards"]');
-                if (honorsTab) {
-                    honorsTab.style.display = 'none';
-                }
-            }
-            
-            // Check if teaching tab should be hidden
-            const teachingContainer = document.getElementById('teaching-modules-container');
-            if (teachingContainer && teachingContainer.children.length === 0) {
-                const teachingTab = document.querySelector('.tab-button[data-tab="teaching"]');
-                if (teachingTab) {
-                    teachingTab.style.display = 'none';
-                }
-            }
-            
-            // Check if reviewer tab should be hidden
-            const reviewerContainer = document.getElementById('reviewer-modules-container');
-            if (reviewerContainer && reviewerContainer.children.length === 0) {
-                const reviewerTab = document.querySelector('.tab-button[data-tab="reviewer"]');
-                if (reviewerTab) {
-                    reviewerTab.style.display = 'none';
-                }
-            }
-            
-            // Ensure at least one tab is active and visible
-            const visibleTabs = Array.from(document.querySelectorAll('.tab-button')).filter(tab => 
-                tab.style.display !== 'none'
-            );
-            
-            if (visibleTabs.length > 0) {
-                // Check if the currently active tab is visible
-                const activeTab = document.querySelector('.tab-button.active');
-                if (activeTab && activeTab.style.display === 'none') {
-                    // If active tab is hidden, activate the first visible tab
-                    activeTab.classList.remove('active');
-                    const firstVisibleTab = visibleTabs[0];
-                    firstVisibleTab.classList.add('active');
-                    
-                    // Also activate the corresponding pane
-                    const tabId = firstVisibleTab.getAttribute('data-tab');
-                    document.querySelectorAll('.tab-pane').forEach(pane => {
-                        pane.classList.remove('active');
-                    });
-                    const targetPane = document.getElementById(tabId);
-                    if (targetPane) {
-                        targetPane.classList.add('active');
-                    }
-                    
-                    // Update the stored state
-                    if (typeof activeTabStates !== 'undefined') {
-                        activeTabStates.experiences = tabId;
-                    }
-                }
-            }
-            
-            // Instead of forcing a reflow, we'll use a more targeted approach
-            // to ensure floating elements are properly rendered
+            // After language update, ensure floating elements are properly displayed
             const experiencesSection = document.getElementById('experiences');
             if (experiencesSection) {
-                // Only trigger a layout recalculation without hiding/showing the entire section
                 const floatingElements = experiencesSection.querySelectorAll('.module-tag, .module-link, .module-footer');
                 floatingElements.forEach(element => {
                     // Save original styles
@@ -137,6 +163,11 @@ function loadExperiencesContent() {
                     element.style.opacity = originalOpacity;
                 });
             }
+            
+            // Re-check tab visibility after language change
+            setTimeout(() => {
+                checkExperiencesTabVisibility();
+            }, 100);
         }, 500); // Wait for modules to load
         
         // Add tab switching functionality

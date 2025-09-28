@@ -3,6 +3,69 @@
 
 // Publications section content
 // Chinese text inherits English structure, only differs in nouns and data introduction
+// Function to check and update tab visibility based on content
+function checkPublicationsTabVisibility() {
+    // Check if academic-papers tab should be hidden
+    const academicPapersContainer = document.getElementById('academic-papers-modules-container');
+    if (academicPapersContainer && academicPapersContainer.children.length === 0) {
+        const academicPapersTab = document.querySelector('.tab-button[data-tab="academic-papers"]');
+        if (academicPapersTab) {
+            academicPapersTab.style.display = 'none';
+        }
+    } else {
+        const academicPapersTab = document.querySelector('.tab-button[data-tab="academic-papers"]');
+        if (academicPapersTab) {
+            academicPapersTab.style.display = '';
+        }
+    }
+    
+    // Check if patents tab should be hidden
+    const patentsContainer = document.getElementById('patents-modules-container');
+    if (patentsContainer && patentsContainer.children.length === 0) {
+        const patentsTab = document.querySelector('.tab-button[data-tab="patents"]');
+        if (patentsTab) {
+            patentsTab.style.display = 'none';
+        }
+    } else {
+        const patentsTab = document.querySelector('.tab-button[data-tab="patents"]');
+        if (patentsTab) {
+            patentsTab.style.display = '';
+        }
+    }
+    
+    // Ensure at least one tab is active and visible
+    const visibleTabs = Array.from(document.querySelectorAll('.tab-button')).filter(tab => 
+        tab.style.display !== 'none'
+    );
+    
+    if (visibleTabs.length > 0) {
+        // Check if the currently active tab is visible
+        const activeTab = document.querySelector('.tab-button.active');
+        if (activeTab && activeTab.style.display === 'none') {
+            // If active tab is hidden, activate the first visible tab
+            activeTab.classList.remove('active');
+            const firstVisibleTab = visibleTabs[0];
+            firstVisibleTab.classList.add('active');
+            
+            // Also activate the corresponding pane
+            const tabId = firstVisibleTab.getAttribute('data-tab');
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            const targetPane = document.getElementById(tabId);
+            if (targetPane) {
+                targetPane.classList.add('active');
+            }
+            
+            // Update the stored state
+            if (typeof activeTabStates !== 'undefined') {
+                activeTabStates.publications = tabId;
+            }
+        }
+    }
+}
+
+// Function to load publications content
 function loadPublicationsContent() {
     const currentLang = getCurrentLanguage();
     
@@ -29,6 +92,9 @@ function loadPublicationsContent() {
     
     // Load modules after the content is added to the DOM
     setTimeout(() => {
+        // First, check if we need to hide any tabs based on preloaded content
+        checkPublicationsTabVisibility();
+        
         loadAcademicPapersModules('academic-papers-modules-container', currentLang);
         loadPatentsModules('patents-modules-container', currentLang);
         
@@ -56,51 +122,11 @@ function loadPublicationsContent() {
         
         // After loading all modules, check if we need to hide any tabs
         setTimeout(() => {
-            // Check if patents tab should be hidden
-            const patentsContainer = document.getElementById('patents-modules-container');
-            if (patentsContainer && patentsContainer.children.length === 0) {
-                const patentsTab = document.querySelector('.tab-button[data-tab="patents"]');
-                if (patentsTab) {
-                    patentsTab.style.display = 'none';
-                }
-            }
+            checkPublicationsTabVisibility();
             
-            // Ensure at least one tab is active and visible
-            const visibleTabs = Array.from(document.querySelectorAll('.tab-button')).filter(tab => 
-                tab.style.display !== 'none'
-            );
-            
-            if (visibleTabs.length > 0) {
-                // Check if the currently active tab is visible
-                const activeTab = document.querySelector('.tab-button.active');
-                if (activeTab && activeTab.style.display === 'none') {
-                    // If active tab is hidden, activate the first visible tab
-                    activeTab.classList.remove('active');
-                    const firstVisibleTab = visibleTabs[0];
-                    firstVisibleTab.classList.add('active');
-                    
-                    // Also activate the corresponding pane
-                    const tabId = firstVisibleTab.getAttribute('data-tab');
-                    document.querySelectorAll('.tab-pane').forEach(pane => {
-                        pane.classList.remove('active');
-                    });
-                    const targetPane = document.getElementById(tabId);
-                    if (targetPane) {
-                        targetPane.classList.add('active');
-                    }
-                    
-                    // Update the stored state
-                    if (typeof activeTabStates !== 'undefined') {
-                        activeTabStates.publications = tabId;
-                    }
-                }
-            }
-            
-            // Instead of forcing a reflow, we'll use a more targeted approach
-            // to ensure floating elements are properly rendered
+            // After language update, ensure floating elements are properly displayed
             const publicationsSection = document.getElementById('publications');
             if (publicationsSection) {
-                // Only trigger a layout recalculation without hiding/showing the entire section
                 const floatingElements = publicationsSection.querySelectorAll('.module-tag, .module-link, .module-footer');
                 floatingElements.forEach(element => {
                     // Save original styles
@@ -117,6 +143,11 @@ function loadPublicationsContent() {
                     element.style.opacity = originalOpacity;
                 });
             }
+            
+            // Re-check tab visibility after language change
+            setTimeout(() => {
+                checkPublicationsTabVisibility();
+            }, 100);
         }, 500); // Wait for modules to load
     }, 100);
     
