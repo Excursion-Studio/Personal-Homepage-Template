@@ -7,22 +7,26 @@
 
 // Page layout initialization
 document.addEventListener('DOMContentLoaded', function() {
-  // Apply layout styles
-  applyLayoutStyles();
-  
-  // Create page structure
-  createPageStructure();
-  
-  // Update footer text after language is initialized
-  setTimeout(() => {
-    const footer = document.getElementById('footer');
-    if (footer) {
-      const footerText = footer.querySelector('p');
-      if (footerText) {
-        footerText.innerHTML = getText('copyright');
-      }
-    }
-  }, 100);
+    // Wait for content to be ready before initializing the page
+    document.addEventListener('contentReady', function(event) {
+        console.log('Content is ready, initializing page layout...');
+        // Apply layout styles
+        applyLayoutStyles();
+        
+        // Create page structure
+        createPageStructure();
+        
+        // Update footer text after language is initialized
+        setTimeout(() => {
+            const footer = document.getElementById('footer');
+            if (footer) {
+                const footerText = footer.querySelector('p');
+                if (footerText) {
+                    footerText.innerHTML = getText('copyright');
+                }
+            }
+        }, 100);
+    });
 });
 
 // Create page structure

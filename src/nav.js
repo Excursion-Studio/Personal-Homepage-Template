@@ -1,5 +1,5 @@
 // Written by Constantine Heinrich Chen (ConsHein Chen)
-// Last Change: 2025-09-29
+// Last Change: 2025-09-19
 
 // Navigation functionality
 // English text structure is used across all languages
@@ -152,26 +152,17 @@ function createNavbar() {
                 }
                 
                 // Add to main content area
-            let mainContent = document.getElementById('main-content');
-            if (!mainContent) {
-                mainContent = document.querySelector('#main-content .content-wrapper');
-            }
-            if (!mainContent) {
-                mainContent = document.querySelector('.content-wrapper');
-            }
-            if (!mainContent) {
-                mainContent = document.body;
-            }
-            mainContent.appendChild(targetSection);
-            
-            // After adding the section, check tab visibility
-            setTimeout(() => {
-                if (targetId === 'experiences') {
-                    checkExperiencesTabVisibility();
-                } else if (targetId === 'publications') {
-                    checkPublicationsTabVisibility();
+                let mainContent = document.getElementById('main-content');
+                if (!mainContent) {
+                    mainContent = document.querySelector('#main-content .content-wrapper');
                 }
-            }, 500);
+                if (!mainContent) {
+                    mainContent = document.querySelector('.content-wrapper');
+                }
+                if (!mainContent) {
+                    mainContent = document.body;
+                }
+                mainContent.appendChild(targetSection);
             }
             
             // Hide all sections with a fade out effect
@@ -186,8 +177,11 @@ function createNavbar() {
             
             // Show the target section with a fade in effect
             setTimeout(() => {
-                // Ensure the section content is in the correct language
-                updateSectionContentLanguage(targetId);
+                // Only update section content language if the section already exists and has content
+                // This prevents reloading content when switching to a newly created section
+                if (targetSection && targetSection.children.length > 0 && targetId !== 'home') {
+                    updateSectionContentLanguage(targetId);
+                }
                 
                 // Load specific content based on section
                 if (targetId === 'home' && typeof loadHomeContent === 'function') {
@@ -225,6 +219,14 @@ function createNavbar() {
                 // Fade in the target section
     requestAnimationFrame(() => {
         targetSection.style.opacity = '1';
+        
+        // Don't trigger a reflow to avoid page reload
+        // setTimeout(() => {
+        //     // Force a reflow on the entire section to ensure all floating elements are properly rendered
+        //     targetSection.style.display = 'none';
+        //     targetSection.offsetHeight; // Trigger reflow
+        //     targetSection.style.display = '';
+        // }, 300);
     });
             }, 300);
         }
@@ -368,8 +370,8 @@ window.addEventListener('resize', function() {
                 switchContainer.appendChild(existingThemeSwitch);
             }
             
-            // Force reflow to ensure styles are applied correctly
-            navbar.offsetHeight;
+            // Don't force reflow to ensure styles are applied correctly
+            // navbar.offsetHeight;
         } 
         // For desktop mode
         else {
@@ -411,8 +413,8 @@ window.addEventListener('resize', function() {
                     switchContainer.appendChild(existingThemeSwitch);
                 }
                 
-                // Force reflow to ensure styles are applied correctly
-                navLinks.offsetHeight;
+                // Don't force reflow to ensure styles are applied correctly
+                // navLinks.offsetHeight;
             }
         }
     }, 300); // Wait 300ms after resize stops before executing
@@ -421,7 +423,17 @@ window.addEventListener('resize', function() {
 
 // Create navigation bar when DOM is loaded
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', createNavbar);
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait for content to be ready before creating the navigation bar
+        document.addEventListener('contentReady', function(event) {
+            console.log('Content is ready, creating navigation bar...');
+            createNavbar();
+        });
+    });
 } else {
-    createNavbar();
+    // Wait for content to be ready before creating the navigation bar
+    document.addEventListener('contentReady', function(event) {
+        console.log('Content is ready, creating navigation bar...');
+        createNavbar();
+    });
 }
