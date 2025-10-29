@@ -11,7 +11,6 @@ The sample page can be previewed by clicking [here](https://excursion-studio.git
 - 🌐 **Multilingual Support**: Full English/Chinese language switching with all content available in both languages
 - 🎨 **Theme Switching**: Light/dark theme toggle with settings saved in local storage
 - 📱 **Responsive Design**: Optimized for both desktop and mobile devices
-- 📄 **PDF CV Generation**: Dynamic PDF resume generation with watermark and custom font support
 - 🔧 **Modular Design**: Each functional module has independent files for easy maintenance and extension
 - 📊 **Data-Driven**: All content loaded from JSON configuration files, no code changes needed for updates
 
@@ -21,12 +20,11 @@ The sample page can be previewed by clicking [here](https://excursion-studio.git
 Personal-Homepage-Template/
 ├── README.md                 # English documentation
 ├── README_zh.md              # Chinese documentation
+├── index.html                # Main page file
 ├── components/               # Third-party components
 │   ├── all_min.css           # Font Awesome icon library
 │   ├── chart.js              # Chart.js library
-│   ├── font/                 # Font files
-│   ├── fontkit.umd.js        # Font processing library
-│   └── pdf-lib.min.js        # PDF generation library
+│   └── font/                 # Font files
 ├── configs/                  # Configuration files
 │   ├── config.json           # Main configuration file
 │   ├── en/                   # English configurations
@@ -34,23 +32,23 @@ Personal-Homepage-Template/
 ├── images/                   # Image resources
 │   ├── experience/           # Experience-related images
 │   ├── homepage/             # Homepage-related images
+│   │   ├── favicon/          # Website icons
+│   │   ├── info icon/        # Information icons
+│   │   └── photo/            # Personal photos
 │   └── publication/          # Publication-related images
 └── src/                      # Source code
-    ├── index_origin.html     # Main page
     ├── base.css              # Basic styles
     ├── light.css             # Light theme styles
     ├── mobile.css            # Mobile device styles
+    ├── module-container.css  # Module container styles
     ├── language.js           # Language switching functionality
-    ├── theme.js              # Theme switching functionality
+    ├── load.js               # Page loading functionality
     ├── nav.js                # Navigation bar functionality
     ├── home.js               # Homepage functionality
     ├── experiences.js        # Experience section functionality
     ├── publications.js       # Publications section functionality
-    ├── cv.js                 # CV section functionality
-    ├── cv_generator.js       # PDF CV generation functionality
     ├── module-container.js   # Module container component
-    ├── cacheclearing.js      # Cache clearing functionality
-    └── distribution.js       # Page layout functionality
+    └── tab.js                # Tab functionality
 ```
 
 ## Installation and Deployment
@@ -91,7 +89,7 @@ If set to false, not only will the language switch button be displayed, but both
 
 ### Personal Information Configuration
 
-#### English Configuration (configs/en/info.json)
+#### English Configuration (configs/en/info_en.json)
 
 ```json
 {
@@ -125,25 +123,25 @@ If set to false, not only will the language switch button be displayed, but both
 
 Each section has corresponding configuration files, including:
 
-- `education.json` / `education_zh.json`: Education experience
-- `employment.json` / `employment_zh.json`: Work experience
-- `honors.json` / `honors_zh.json`: Honors and awards
-- `news.json` / `news_zh.json`: News updates
-- `papers.json` / `papers_zh.json`: Academic papers
-- `patents.json` / `patents_zh.json`: Patents
-- `reviewer.json` / `reviewer_zh.json`: Reviewer experience
-- `teaching.json` / `teaching_zh.json`: Teaching experience
-- `intro.txt` / `intro_zh.txt`: Personal introduction
+- `education_en.json` / `education_zh.json`: Education experience
+- `employment_en.json` / `employment_zh.json`: Work experience
+- `honors_en.json` / `honors_zh.json`: Honors and awards
+- `news_en.json` / `news_zh.json`: News updates
+- `papers_en.json` / `papers_zh.json`: Academic papers
+- `patents_en.json` / `patents_zh.json`: Patents
+- `reviewer_en.json` / `reviewer_zh.json`: Reviewer experience
+- `teaching_en.json` / `teaching_zh.json`: Teaching experience
+- `intro_en.txt` / `intro_zh.txt`: Personal introduction
 
 ## Customizing Content
 
 ### Modifying Personal Information
 
-Personal information is displayed in the left information bar of the Home section. Edit the `configs/en/info.json` and/or `configs/zh/info_zh.json` files to update your personal information. Specific fields are shown in the examples above.
+Personal information is displayed in the left information bar of the Home section. Edit the `configs/en/info_en.json` and/or `configs/zh/info_zh.json` files to update your personal information. Specific fields are shown in the examples above.
 
 ### Adding Education Experience
 
-Education experience is displayed in the first tab of the Experiences section. Add your education experience in `configs/en/education.json` and/or `configs/zh/education_zh.json`.
+Education experience is displayed in the first tab of the Experiences section. Add your education experience in `configs/en/education_en.json` and/or `configs/zh/education_zh.json`.
 
 ```json
 [
@@ -168,7 +166,7 @@ Education experience is displayed in the first tab of the Experiences section. A
 
 ### Adding Work Experience
 
-Work experience is displayed in the second tab of the Experiences section. Add your work experience in `configs/en/employment.json` and/or `configs/zh/employment_zh.json`. If you don't have work experience, you can delete or leave empty the corresponding json file, and the corresponding section will not be displayed.
+Work experience is displayed in the second tab of the Experiences section. Add your work experience in `configs/en/employment_en.json` and/or `configs/zh/employment_zh.json`. If you don't have work experience, you can delete or leave empty the corresponding json file, and the corresponding section will not be displayed.
 
 ```json
 [
@@ -192,7 +190,7 @@ Work experience is displayed in the second tab of the Experiences section. Add y
 
 ### Adding Academic Papers
 
-Academic papers are displayed in the first tab of the Publications section. Add your academic papers in `configs/en/papers.json` and/or `configs/zh/papers_zh.json`.
+Academic papers are displayed in the first tab of the Publications section. Add your academic papers in `configs/en/papers_en.json` and/or `configs/zh/papers_zh.json`.
 
 ```json
 {
@@ -220,28 +218,26 @@ Academic papers are displayed in the first tab of the Publications section. Add 
 
 ### Adding Patents
 
-Patents are displayed in the second tab of the Publications section. Add your patents in `configs/en/patents.json` and/or `configs/zh/patents_zh.json`. If you don't have patent information, you can delete or leave empty the corresponding json file, and the corresponding section will not be displayed.
+Patents are displayed in the second tab of the Publications section. Add your patents in `configs/en/patents_en.json` and/or `configs/zh/patents_zh.json`. If you don't have patent information, you can delete or leave empty the corresponding json file, and the corresponding section will not be displayed.
 
 ```json
-{
-    "patents": [
-        {
-            "type": "Patent Type",
-            "title": "Patent Title",
-            "authors": "<u>Inventor 1</u>, Inventor 2, Inventor 3",
-            // You can use the <u> tag to underline yourself
-            "number": "Patent Number",
-            "date": "Date",
-            "link": "https://patent.link"
-        },
-        // If you have different patents, you can also continue to add here...
-    ]
-}
+[
+    {
+        "type": "Patent Type",
+        "title": "Patent Title",
+        "authors": "<u>Inventor 1</u>, Inventor 2, Inventor 3",
+        // You can use the <u> tag to underline yourself
+        "number": "Patent Number",
+        "date": "Date",
+        "link": "https://patent.link"
+    },
+    // If you have different patents, you can also continue to add here...
+]
 ```
 
 ### Adding Honors and Awards
 
-Honors and awards are displayed in the third tab of the Experiences section. Add your honors and awards in `configs/en/honors.json` and/or `configs/zh/honors_zh.json`. If you don't have honors and awards, you can delete or leave empty the corresponding json file, and the corresponding section will not be displayed.
+Honors and awards are displayed in the third tab of the Experiences section. Add your honors and awards in `configs/en/honors_en.json` and/or `configs/zh/honors_zh.json`. If you don't have honors and awards, you can delete or leave empty the corresponding json file, and the corresponding section will not be displayed.
 
 ```json
 [
@@ -256,7 +252,7 @@ Honors and awards are displayed in the third tab of the Experiences section. Add
 
 ### Adding News Updates
 
-News updates are displayed in the second column on the right side of the Home section. Add your news updates in `configs/en/news.json` and/or `configs/zh/news_zh.json`.
+News updates are displayed in the second column on the right side of the Home section. Add your news updates in `configs/en/news_en.json` and/or `configs/zh/news_zh.json`.
 
 ```json
 [
@@ -277,7 +273,7 @@ You can use HTML tags to format the content of news updates. Here are some tags 
 
 ### Adding Teaching Experience
 
-Teaching experience is displayed in the fourth tab of the Experiences section. Add your teaching experience in `configs/en/teaching.json` and/or `configs/zh/teaching_zh.json`. If you don't have teaching experience, you can delete or leave empty the corresponding json file, and the corresponding section will not be displayed.
+Teaching experience is displayed in the fourth tab of the Experiences section. Add your teaching experience in `configs/en/teaching_en.json` and/or `configs/zh/teaching_zh.json`. If you don't have teaching experience, you can delete or leave empty the corresponding json file, and the corresponding section will not be displayed.
 
 ```json
 [
@@ -295,7 +291,7 @@ Teaching experience is displayed in the fourth tab of the Experiences section. A
 
 ### Adding Reviewer Experience
 
-Reviewer experience is displayed in the fifth tab of the Experiences section. Add your reviewer experience in `configs/en/reviewer.json` and/or `configs/zh/reviewer_zh.json`. If you don't have reviewer experience, you can delete or leave empty the corresponding json file, and the corresponding section will not be displayed.
+Reviewer experience is displayed in the fifth tab of the Experiences section. Add your reviewer experience in `configs/en/reviewer_en.json` and/or `configs/zh/reviewer_zh.json`. If you don't have reviewer experience, you can delete or leave empty the corresponding json file, and the corresponding section will not be displayed.
 
 ```json
 [
@@ -313,14 +309,15 @@ Reviewer experience is displayed in the fifth tab of the Experiences section. Ad
 
 ### Adding Personal Introduction
 
-Personal introduction is displayed in the first column on the right side of the Home section. Edit the `configs/en/intro.txt` and/or `configs/zh/intro_zh.txt` files to add your personal introduction. You can use HTML tags to format the text, commonly used tags are mentioned in the "News Updates" section above.
+Personal introduction is displayed in the first column on the right side of the Home section. Edit the `configs/en/intro_en.txt` and/or `configs/zh/intro_zh.txt` files to add your personal introduction. You can use HTML tags to format the text, commonly used tags are mentioned in the "News Updates" section above.
 
 ### Adding Image Resources
 
 1. Add school/company logos to the `images/experience/` directory
 2. Add paper-related images to the `images/publication/` directory
 3. Add personal photos to the `images/homepage/photo/` directory
-4. Add watermark images for PDF generation to the `images/homepage/watermark/` directory (optional)
+4. Add website icons to the `images/homepage/favicon/` directory
+5. Add information icons to the `images/homepage/info icon/` directory
 
 ## Feature Guide
 
@@ -335,12 +332,6 @@ Personal introduction is displayed in the first column on the right side of the 
 - Click the theme switch button (sun/moon icon) in the navigation bar to switch themes
 - Theme settings are saved in local storage and will be remembered on your next visit
 - All page elements have corresponding theme styles
-
-### PDF CV Generation
-
-- Click the "Generate and Download Full CV" button in the CV section to preview the PDF resume, you can download it as needed
-- The PDF CV automatically retrieves content from configuration files
-- Supports adding watermarks and custom fonts
 
 ### Responsive Design
 
@@ -383,12 +374,9 @@ A:
 1. Create a corresponding JavaScript file in the `src/` directory to load content, and reference it in `index.html`
 2. Create corresponding configuration files in the `configs/en/` and `configs/zh/` directories
 3. Add new block creation logic in `src/nav.js`
-4. Add new style definitions in `src/base.css`
+4. Add new style definitions in `src/base.css` and `src/light.css`
 5. Add new text definitions in `src/language.js`
-
-### Q: How do I customize the PDF CV style?
-
-A: Edit the relevant functions in the `src/cv_generator.js` file to modify fonts, colors, layout, etc. The PDF generator in this project is implemented based on the pdf-Lib library, so before that, you need to learn the corresponding development knowledge.
+6. Add responsive styles in `src/mobile.css` if needed for mobile devices
 
 ## Contact
 

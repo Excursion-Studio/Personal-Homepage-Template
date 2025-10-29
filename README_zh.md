@@ -11,7 +11,6 @@ ESPH 模板是一个功能完整的个人学术主页模板，支持中英文双
 - 🌐 **多语言支持**：支持中英文切换，所有内容都有对应的中英文版本
 - 🎨 **主题切换**：支持亮暗主题切换，主题设置会保存在本地存储中
 - 📱 **响应式设计**：适配桌面和移动设备，提供良好的用户体验
-- 📄 **PDF简历生成**：动态生成PDF简历，支持添加水印和自定义字体
 - 🔧 **模块化设计**：每个功能模块都有独立的文件，便于维护和扩展
 - 📊 **数据驱动**：所有内容都从JSON配置文件中加载，无需修改代码即可更新内容
 
@@ -21,12 +20,11 @@ ESPH 模板是一个功能完整的个人学术主页模板，支持中英文双
 Personal-Homepage-Template/
 ├── README.md                 # 英文说明文档
 ├── README_zh.md              # 中文说明文档
+├── index.html                # 主页面文件
 ├── components/               # 第三方组件
 │   ├── all_min.css           # Font Awesome图标库
 │   ├── chart.js              # Chart.js图表库
-│   ├── font/                 # 字体文件
-│   ├── fontkit.umd.js        # 字体处理库
-│   └── pdf-lib.min.js        # PDF生成库
+│   └── font/                 # 字体文件
 ├── configs/                  # 配置文件
 │   ├── config.json           # 主配置文件
 │   ├── en/                   # 英文配置
@@ -34,23 +32,23 @@ Personal-Homepage-Template/
 ├── images/                   # 图片资源
 │   ├── experience/           # 经历相关图片
 │   ├── homepage/             # 主页相关图片
+│   │   ├── favicon/          # 网页图标
+│   │   ├── info icon/        # 信息图标
+│   │   └── photo/            # 个人照片
 │   └── publication/          # 出版物相关图片
 └── src/                      # 源代码
-    ├── index_origin.html     # 主页面
     ├── base.css              # 基础样式
     ├── light.css             # 亮色主题样式
     ├── mobile.css            # 移动设备样式
+    ├── module-container.css  # 模块容器样式
     ├── language.js           # 语言切换功能
-    ├── theme.js              # 主题切换功能
+    ├── load.js               # 页面加载功能
     ├── nav.js                # 导航栏功能
     ├── home.js               # 主页功能
     ├── experiences.js        # 经历部分功能
     ├── publications.js       # 出版物部分功能
-    ├── cv.js                 # 简历部分功能
-    ├── cv_generator.js       # PDF简历生成功能
     ├── module-container.js   # 模块容器组件
-    ├── cacheclearing.js      # 缓存清除功能
-    └── distribution.js       # 页面布局功能
+    └── tab.js                # 选项卡功能
 ```
 
 ## 安装和部署
@@ -91,7 +89,7 @@ Personal-Homepage-Template/
 
 ### 个人信息配置
 
-#### 英文配置 (以 configs/en/info.json 为例)
+#### 英文配置 (以 configs/en/info_en.json 为例)
 
 ```json
 {
@@ -125,25 +123,25 @@ Personal-Homepage-Template/
 
 每个部分都有对应的配置文件，包括：
 
-- `education.json` / `education_zh.json`: 教育经历
-- `employment.json` / `employment_zh.json`: 工作经历
-- `honors.json` / `honors_zh.json`: 荣誉奖项
-- `news.json` / `news_zh.json`: 新闻动态
-- `papers.json` / `papers_zh.json`: 学术论文
-- `patents.json` / `patents_zh.json`: 专利
-- `reviewer.json` / `reviewer_zh.json`: 审稿经历
-- `teaching.json` / `teaching_zh.json`: 教学经历
-- `intro.txt` / `intro_zh.txt`: 个人简介
+- `education_en.json` / `education_zh.json`: 教育经历
+- `employment_en.json` / `employment_zh.json`: 工作经历
+- `honors_en.json` / `honors_zh.json`: 荣誉奖项
+- `news_en.json` / `news_zh.json`: 新闻动态
+- `papers_en.json` / `papers_zh.json`: 学术论文
+- `patents_en.json` / `patents_zh.json`: 专利
+- `reviewer_en.json` / `reviewer_zh.json`: 审稿经历
+- `teaching_en.json` / `teaching_zh.json`: 教学经历
+- `intro_en.txt` / `intro_zh.txt`: 个人简介
 
 ## 自定义内容
 
 ### 修改个人信息
 
-个人信息会显示在 Home 部分的左侧信息栏中。编辑 `configs/en/info.json` 和/或 `configs/zh/info_zh.json` 文件，更新您的个人信息。具体字段如上示例所示。
+个人信息会显示在 Home 部分的左侧信息栏中。编辑 `configs/en/info_en.json` 和/或 `configs/zh/info_zh.json` 文件，更新您的个人信息。具体字段如上示例所示。
 
 ### 添加教育经历
 
-教育经历会显示在 Experiences 部分的第一个分栏中。在 `configs/en/education.json` 和/或 `configs/zh/education_zh.json` 中添加您的教育经历。
+教育经历会显示在 Experiences 部分的第一个分栏中。在 `configs/en/education_en.json` 和/或 `configs/zh/education_zh.json` 中添加您的教育经历。
 
 ```json
 [
@@ -168,7 +166,7 @@ Personal-Homepage-Template/
 
 ### 添加工作经历
 
-工作经历会显示在 Experiences 部分的第二个分栏中。在 `configs/en/employment.json` 和/或 `configs/zh/employment_zh.json` 中添加您的工作经历。如果没有工作经历，可以将相应的json文件删除或空置，对应的部分不会显示。
+工作经历会显示在 Experiences 部分的第二个分栏中。在 `configs/en/employment_en.json` 和/或 `configs/zh/employment_zh.json` 中添加您的工作经历。如果没有工作经历，可以将相应的json文件删除或空置，对应的部分不会显示。
 
 ```json
 [
@@ -192,7 +190,7 @@ Personal-Homepage-Template/
 
 ### 添加学术论文
 
-学术论文会显示在 Publications 部分的第一个分栏中。在 `configs/en/papers.json` 和/或 `configs/zh/papers_zh.json` 中添加您的学术论文。
+学术论文会显示在 Publications 部分的第一个分栏中。在 `configs/en/papers_en.json` 和/或 `configs/zh/papers_zh.json` 中添加您的学术论文。
 
 ```json
 {
@@ -220,28 +218,26 @@ Personal-Homepage-Template/
 
 ### 添加专利
 
-专利会显示在 Publications 部分的第二个分栏中。在 `configs/en/patents.json` 和/或 `configs/zh/patents_zh.json` 中添加您的专利。如果没有专利信息，可以将相应的json文件删除或空置，对应的部分不会显示。
+专利会显示在 Publications 部分的第二个分栏中。在 `configs/en/patents_en.json` 和/或 `configs/zh/patents_zh.json` 中添加您的专利。如果没有专利信息，可以将相应的json文件删除或空置，对应的部分不会显示。
 
 ```json
-{
-    "patents": [
-        {
-            "type": "Patent Type",
-            "title": "Patent Title",
-            "authors": "<u>Inventor 1</u>, Inventor 2, Inventor 3",
-            // 可以通过 <u> 标签，通过下划线来标注自己
-            "number": "Patent Number",
-            "date": "Date",
-            "link": "https://patent.link"
-        },
-        // 如果有不同的专利，也可以在此处继续添加……
-    ]
-}
+[
+    {
+        "type": "Patent Type",
+        "title": "Patent Title",
+        "authors": "<u>Inventor 1</u>, Inventor 2, Inventor 3",
+        // 可以通过 <u> 标签，通过下划线来标注自己
+        "number": "Patent Number",
+        "date": "Date",
+        "link": "https://patent.link"
+    },
+    // 如果有不同的专利，也可以在此处继续添加……
+]
 ```
 
 ### 添加荣誉奖项
 
-荣誉奖项会显示在 Experiences 部分的第三个分栏中。在 `configs/en/honors.json` 和/或 `configs/zh/honors_zh.json` 中添加您的荣誉奖项。如果没有荣誉奖项，可以将相应的json文件删除或空置，对应的部分不会显示。
+荣誉奖项会显示在 Experiences 部分的第三个分栏中。在 `configs/en/honors_en.json` 和/或 `configs/zh/honors_zh.json` 中添加您的荣誉奖项。如果没有荣誉奖项，可以将相应的json文件删除或空置，对应的部分不会显示。
 
 ```json
 [
@@ -256,7 +252,7 @@ Personal-Homepage-Template/
 
 ### 添加新闻动态
 
-新闻动态会显示在 Home 部分的右侧第二栏中。在 `configs/en/news.json` 和/或 `configs/zh/news_zh.json` 中添加您的新闻动态。
+新闻动态会显示在 Home 部分的右侧第二栏中。在 `configs/en/news_en.json` 和/或 `configs/zh/news_zh.json` 中添加您的新闻动态。
 
 ```json
 [
@@ -277,7 +273,7 @@ Personal-Homepage-Template/
 
 ### 添加教学经历
 
-教学经历会显示在 Experiences 部分的第四个分栏中。在 `configs/en/teaching.json` 和/或 `configs/zh/teaching_zh.json` 中添加您的教学经历。如果没有教学经历，可以将相应的json文件删除或空置，对应的部分不会显示。
+教学经历会显示在 Experiences 部分的第四个分栏中。在 `configs/en/teaching_en.json` 和/或 `configs/zh/teaching_zh.json` 中添加您的教学经历。如果没有教学经历，可以将相应的json文件删除或空置，对应的部分不会显示。
 
 ```json
 [
@@ -295,7 +291,7 @@ Personal-Homepage-Template/
 
 ### 添加审稿经历
 
-审稿经历会显示在 Experiences 部分的第五个分栏中。在 `configs/en/reviewer.json` 和/或 `configs/zh/reviewer_zh.json` 中添加您的审稿经历。如果没有审稿经历，可以将相应的json文件删除或空置，对应的部分不会显示。
+审稿经历会显示在 Experiences 部分的第五个分栏中。在 `configs/en/reviewer_en.json` 和/或 `configs/zh/reviewer_zh.json` 中添加您的审稿经历。如果没有审稿经历，可以将相应的json文件删除或空置，对应的部分不会显示。
 
 ```json
 [
@@ -313,14 +309,15 @@ Personal-Homepage-Template/
 
 ### 添加个人简介
 
-个人简介会显示在 Home 部分的右侧第一栏中。编辑 `configs/en/intro.txt` 和/或 `configs/zh/intro_zh.txt` 文件，添加您的个人简介。可以使用HTML标签来格式化文本，常用的标签在上方“新闻动态”中有所提及。
+个人简介会显示在 Home 部分的右侧第一栏中。编辑 `configs/en/intro_en.txt` 和/或 `configs/zh/intro_zh.txt` 文件，添加您的个人简介。可以使用HTML标签来格式化文本，常用的标签在上方“新闻动态”中有所提及。
 
 ### 添加图片资源
 
 1. 将学校/公司logo添加到 `images/experience/` 目录
 2. 将论文相关图片添加到 `images/publication/` 目录
 3. 将个人照片添加到 `images/homepage/photo/` 目录
-4. 将PDF生成的水印图片添加到 `images/homepage/watermark/` 目录（可选）
+4. 将网站图标添加到 `images/homepage/favicon/` 目录
+5. 将信息图标添加到 `images/homepage/info icon/` 目录
 
 ## 功能说明
 
@@ -335,12 +332,6 @@ Personal-Homepage-Template/
 - 点击导航栏中的主题切换按钮（太阳/月亮图标）可以切换主题
 - 主题设置会保存在本地存储中，下次访问时会记住您的选择
 - 所有页面元素都有对应的主题样式
-
-### PDF简历生成
-
-- 在简历部分点击"Generate and Download Full CV"按钮可以预览PDF简历，根据需要可以下载
-- PDF简历会自动从配置文件中获取内容
-- 支持添加水印和自定义字体
 
 ### 响应式设计
 
@@ -383,12 +374,9 @@ A:
 1. 在 `src/` 目录下创建对应的JavaScript文件来加载内容，并在 `index.html` 中引用
 2. 在 `configs/en/` 和 `configs/zh/` 目录下创建对应的配置文件
 3. 在 `src/nav.js` 中添加新的区块创建逻辑
-4. 在 `src/base.css` 中添加新的样式定义
+4. 在 `src/base.css` 和 `src/light.css` 中添加新的样式定义
 5. 在 `src/language.js` 中添加新的文本定义
-
-### Q: 如何自定义PDF简历的样式？
-
-A: 编辑 `src/cv_generator.js` 文件中的相关函数，可以修改字体、颜色、布局等。本项目中的PDF生成器是基于 pdf-Lib 库实现的，所以在此之前，您需要学会相应的开发知识。
+6. 在 `src/mobile.css` 中添加响应式样式（如需要）
 
 ## 联系方式
 
