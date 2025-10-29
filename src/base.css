@@ -575,7 +575,6 @@ body.dark-theme .copyright-text {
 .reviewer-modules-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
   width: 100%;
   max-width: 1200px;
   align-items: center;
