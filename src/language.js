@@ -1007,6 +1007,117 @@ class LanguageManager {
     }
     
     /**
+     * Update mobile tab labels with hot switching | 使用热切换更新移动端标签页标签
+     * @param {string} language - Language code (optional, defaults to current) | 语言代码（可选，默认为当前语言）
+     */
+    updateMobileTabLabels(language = null) {
+        const lang = language || this.currentLanguage;
+        console.log(`Updating mobile tab labels for language: ${lang}`);
+        
+        // Update experiences section tabs | 更新经历部分标签页
+        const experiencesSection = document.getElementById('experiences-section');
+        if (experiencesSection) {
+            // Update compact tab trigger button | 更新紧凑型标签页触发按钮
+            const compactTabTrigger = experiencesSection.querySelector('.compact-tab-button');
+            if (compactTabTrigger) {
+                const activeTabId = compactTabTrigger.getAttribute('data-active-tab') || 'employment';
+                // Get the appropriate text based on the active tab | 根据活动标签页获取适当的文本
+                let labelText = '';
+                switch (activeTabId) {
+                    case 'employment':
+                        labelText = this.getText('employment', {}, lang);
+                        break;
+                    case 'education':
+                        labelText = this.getText('education', {}, lang);
+                        break;
+                    case 'honors':
+                        labelText = this.getText('honors', {}, lang);
+                        break;
+                    case 'teaching':
+                        labelText = this.getText('teaching', {}, lang);
+                        break;
+                    case 'reviewer':
+                        labelText = this.getText('reviewer', {}, lang);
+                        break;
+                    default:
+                        labelText = this.getText('employment', {}, lang);
+                }
+                compactTabTrigger.textContent = labelText;
+            }
+            
+            // Update compact tab options | 更新紧凑型标签页选项
+            const compactTabOptions = experiencesSection.querySelectorAll('.compact-tab-option');
+            compactTabOptions.forEach(option => {
+                const tabId = option.getAttribute('data-tab');
+                let optionText = '';
+                switch (tabId) {
+                    case 'employment':
+                        optionText = this.getText('employment', {}, lang);
+                        break;
+                    case 'education':
+                        optionText = this.getText('education', {}, lang);
+                        break;
+                    case 'honors':
+                        optionText = this.getText('honors', {}, lang);
+                        break;
+                    case 'teaching':
+                        optionText = this.getText('teaching', {}, lang);
+                        break;
+                    case 'reviewer':
+                        optionText = this.getText('reviewer', {}, lang);
+                        break;
+                    default:
+                        optionText = this.getText('employment', {}, lang);
+                }
+                option.textContent = optionText;
+            });
+        }
+        
+        // Update publications section tabs | 更新发表物部分标签页
+        const publicationsSection = document.getElementById('publications-section');
+        if (publicationsSection) {
+            // Update compact tab trigger button | 更新紧凑型标签页触发按钮
+            const compactTabTrigger = publicationsSection.querySelector('.compact-tab-button');
+            if (compactTabTrigger) {
+                const activeTabId = compactTabTrigger.getAttribute('data-active-tab') || 'paper';
+                // Get the appropriate text based on the active tab | 根据活动标签页获取适当的文本
+                let labelText = '';
+                switch (activeTabId) {
+                    case 'paper':
+                        labelText = this.getText('academicPapers', {}, lang);
+                        break;
+                    case 'patent':
+                        labelText = this.getText('patents', {}, lang);
+                        break;
+                    default:
+                        labelText = this.getText('academicPapers', {}, lang);
+                }
+                compactTabTrigger.textContent = labelText;
+            }
+            
+            // Update compact tab options | 更新紧凑型标签页选项
+            const compactTabOptions = publicationsSection.querySelectorAll('.compact-tab-option');
+            compactTabOptions.forEach(option => {
+                const tabId = option.getAttribute('data-tab');
+                let optionText = '';
+                switch (tabId) {
+                    case 'paper':
+                        optionText = this.getText('academicPapers', {}, lang);
+                        break;
+                    case 'patent':
+                        optionText = this.getText('patents', {}, lang);
+                        break;
+                    default:
+                        optionText = this.getText('academicPapers', {}, lang);
+                }
+                option.textContent = optionText;
+            });
+        }
+        
+        console.log('Mobile tab labels updated successfully');
+    }
+
+    /**
      * Trigger language change event with hot switching | 触发热切换语言更改事件
      * @param {string} language - Language code (optional, defaults to current) | 语言代码（可选，默认为当前语言）
      */
@@ -1021,6 +1132,7 @@ class LanguageManager {
         this.updateNavigationLinks(lang);
         this.updateFooterText(lang);
         this.updateLanguageSwitchText(lang);
+        this.updateMobileTabLabels(lang);
         
         // Update navigation name | 更新导航栏名称
         await this.updateNavigationName(lang);
