@@ -409,7 +409,45 @@ function initMobileCompactTabs(visibleTabs, activeTabId, currentLang, sectionNam
                 // 更新触发按钮的文本 | Update trigger button text
                 const tabData = visibleTabs.find(tab => tab.id === tabId);
                 if (tabData) {
-                    compactTabTrigger.textContent = tabData.label;
+                    // Update compact tab button text | 更新紧凑型标签页按钮文本
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    // 获取当前语言的文本 | Get text in current language
+                    let labelText = '';
+                    if (window.languageManager) {
+                        // 根据标签ID获取对应语言的文本 | Get text in corresponding language based on tab ID
+                        switch (tabId) {
+                            case 'employment':
+                                labelText = window.languageManager.getText('employment', {}, window.languageManager.currentLanguage);
+                                break;
+                            case 'education':
+                                labelText = window.languageManager.getText('education', {}, window.languageManager.currentLanguage);
+                                break;
+                            case 'honors-awards':
+                                labelText = window.languageManager.getText('honorsAndAwards', {}, window.languageManager.currentLanguage);
+                                break;
+                            case 'teaching':
+                                labelText = window.languageManager.getText('teaching', {}, window.languageManager.currentLanguage);
+                                break;
+                            case 'reviewer':
+                                labelText = window.languageManager.getText('reviewer', {}, window.languageManager.currentLanguage);
+                                break;
+                            case 'paper':
+                                labelText = window.languageManager.getText('academicPapers', {}, window.languageManager.currentLanguage);
+                                break;
+                            case 'patent':
+                                labelText = window.languageManager.getText('patents', {}, window.languageManager.currentLanguage);
+                                break;
+                            default:
+                                labelText = button.textContent;
+                        }
+                    } else {
+                        // 如果语言管理器不可用，使用原始标签 | If language manager is not available, use original label
+                        labelText = button.textContent;
+                    }
+                    
+                    compactTabButton.textContent = labelText;
+                    compactTabButton.setAttribute('data-active-tab', tabId);
                 }
                 
                 // 更新选项的活动状态 | Update option active state
@@ -581,11 +619,45 @@ function convertToMobileCompactTabs(sectionId) {
     
     // Get the active tab button | 获取活动标签页按钮
     const activeTabButton = traditionalTabs.querySelector('.tab-button.active');
-    const activeTabText = activeTabButton ? activeTabButton.textContent : tabButtons[0].textContent;
+    const activeTabId = activeTabButton ? activeTabButton.getAttribute('data-tab') : tabButtons[0].getAttribute('data-tab');
+    
+    // 获取当前语言的文本 | Get text in current language
+    let activeTabText = '';
+    if (window.languageManager) {
+        // 根据标签ID获取对应语言的文本 | Get text in corresponding language based on tab ID
+        switch (activeTabId) {
+            case 'employment':
+                activeTabText = window.languageManager.getText('employment', {}, window.languageManager.currentLanguage);
+                break;
+            case 'education':
+                activeTabText = window.languageManager.getText('education', {}, window.languageManager.currentLanguage);
+                break;
+            case 'honors-awards':
+                activeTabText = window.languageManager.getText('honorsAndAwards', {}, window.languageManager.currentLanguage);
+                break;
+            case 'teaching':
+                activeTabText = window.languageManager.getText('teaching', {}, window.languageManager.currentLanguage);
+                break;
+            case 'reviewer':
+                activeTabText = window.languageManager.getText('reviewer', {}, window.languageManager.currentLanguage);
+                break;
+            case 'paper':
+                activeTabText = window.languageManager.getText('academicPapers', {}, window.languageManager.currentLanguage);
+                break;
+            case 'patent':
+                activeTabText = window.languageManager.getText('patents', {}, window.languageManager.currentLanguage);
+                break;
+            default:
+                activeTabText = activeTabButton ? activeTabButton.textContent : tabButtons[0].textContent;
+        }
+    } else {
+        // 如果语言管理器不可用，使用原始标签 | If language manager is not available, use original label
+        activeTabText = activeTabButton ? activeTabButton.textContent : tabButtons[0].textContent;
+    }
     
     // Set compact tab button text | 设置紧凑型标签页按钮文本
     compactTabButton.textContent = activeTabText;
-    compactTabButton.setAttribute('data-active-tab', activeTabButton ? activeTabButton.getAttribute('data-tab') : tabButtons[0].getAttribute('data-tab'));
+    compactTabButton.setAttribute('data-active-tab', activeTabId);
     
     // Create tab options list | 创建标签页选项列表
     const tabOptions = document.createElement('div');
@@ -595,8 +667,44 @@ function convertToMobileCompactTabs(sectionId) {
     tabButtons.forEach(button => {
         const option = document.createElement('div');
         option.className = 'compact-tab-option';
-        option.textContent = button.textContent;
-        option.setAttribute('data-tab', button.getAttribute('data-tab'));
+        
+        // 获取当前语言的文本 | Get text in current language
+        const tabId = button.getAttribute('data-tab');
+        let optionText = '';
+        if (window.languageManager) {
+            // 根据标签ID获取对应语言的文本 | Get text in corresponding language based on tab ID
+            switch (tabId) {
+                case 'employment':
+                    optionText = window.languageManager.getText('employment', {}, window.languageManager.currentLanguage);
+                    break;
+                case 'education':
+                    optionText = window.languageManager.getText('education', {}, window.languageManager.currentLanguage);
+                    break;
+                case 'honors-awards':
+                    optionText = window.languageManager.getText('honorsAndAwards', {}, window.languageManager.currentLanguage);
+                    break;
+                case 'teaching':
+                    optionText = window.languageManager.getText('teaching', {}, window.languageManager.currentLanguage);
+                    break;
+                case 'reviewer':
+                    optionText = window.languageManager.getText('reviewer', {}, window.languageManager.currentLanguage);
+                    break;
+                case 'paper':
+                    optionText = window.languageManager.getText('academicPapers', {}, window.languageManager.currentLanguage);
+                    break;
+                case 'patent':
+                    optionText = window.languageManager.getText('patents', {}, window.languageManager.currentLanguage);
+                    break;
+                default:
+                    optionText = button.textContent;
+            }
+        } else {
+            // 如果语言管理器不可用，使用原始标签 | If language manager is not available, use original label
+            optionText = button.textContent;
+        }
+        
+        option.textContent = optionText;
+        option.setAttribute('data-tab', tabId);
         
         // Mark active option | 标记活动选项
         if (button.classList.contains('active')) {
@@ -610,11 +718,42 @@ function convertToMobileCompactTabs(sectionId) {
             option.classList.add('active');
             
             // Update compact tab button text | 更新紧凑型标签页按钮文本
-            compactTabButton.textContent = button.textContent;
-            compactTabButton.setAttribute('data-active-tab', button.getAttribute('data-tab'));
+            // 获取当前语言的文本 | Get text in current language
+            let labelText = '';
+            if (window.languageManager) {
+                // 根据标签ID获取对应语言的文本 | Get text in corresponding language based on tab ID
+                switch (tabId) {
+                    case 'employment':
+                        labelText = window.languageManager.getText('employment', {}, window.languageManager.currentLanguage);
+                        break;
+                    case 'education':
+                        labelText = window.languageManager.getText('education', {}, window.languageManager.currentLanguage);
+                        break;
+                    case 'honors-awards':
+                        labelText = window.languageManager.getText('honorsAndAwards', {}, window.languageManager.currentLanguage);
+                        break;
+                    case 'teaching':
+                        labelText = window.languageManager.getText('teaching', {}, window.languageManager.currentLanguage);
+                        break;
+                    case 'reviewer':
+                        labelText = window.languageManager.getText('reviewer', {}, window.languageManager.currentLanguage);
+                        break;
+                    case 'paper':
+                        labelText = window.languageManager.getText('academicPapers', {}, window.languageManager.currentLanguage);
+                        break;
+                    case 'patent':
+                        labelText = window.languageManager.getText('patents', {}, window.languageManager.currentLanguage);
+                        break;
+                    default:
+                        labelText = button.textContent;
+                }
+            } else {
+                // 如果语言管理器不可用，使用原始标签 | If language manager is not available, use original label
+                labelText = button.textContent;
+            }
             
-            // Get the tab ID | 获取标签页ID
-            const tabId = button.getAttribute('data-tab');
+            compactTabButton.textContent = labelText;
+            compactTabButton.setAttribute('data-active-tab', tabId);
             
             // Hide all tab panes | 隐藏所有标签页面板
             const tabPanes = tabsContainer.querySelectorAll('.tab-pane');
@@ -688,7 +827,6 @@ function convertToMobileCompactTabs(sectionId) {
     tabsContainer.appendChild(compactTabList);
     
     // Ensure the correct tab content is visible initially | 确保初始时显示正确的标签页内容
-    const activeTabId = activeTabButton ? activeTabButton.getAttribute('data-tab') : tabButtons[0].getAttribute('data-tab');
     const tabPanes = tabsContainer.querySelectorAll('.tab-pane');
     tabPanes.forEach(pane => {
         if (pane.id === activeTabId) {

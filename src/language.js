@@ -1017,10 +1017,17 @@ class LanguageManager {
         // Update experiences section tabs | 更新经历部分标签页
         const experiencesSection = document.getElementById('experiences-section');
         if (experiencesSection) {
+            // Get the currently active tab | 获取当前活动标签页
+            const activeTabPane = experiencesSection.querySelector('.tab-pane.active');
+            let activeTabId = 'education'; // Default to education | 默认为教育
+            
+            if (activeTabPane) {
+                activeTabId = activeTabPane.id;
+            }
+            
             // Update compact tab trigger button | 更新紧凑型标签页触发按钮
             const compactTabTrigger = experiencesSection.querySelector('.compact-tab-button');
             if (compactTabTrigger) {
-                const activeTabId = compactTabTrigger.getAttribute('data-active-tab') || 'employment';
                 // Get the appropriate text based on the active tab | 根据活动标签页获取适当的文本
                 let labelText = '';
                 switch (activeTabId) {
@@ -1030,8 +1037,8 @@ class LanguageManager {
                     case 'education':
                         labelText = this.getText('education', {}, lang);
                         break;
-                    case 'honors':
-                        labelText = this.getText('honors', {}, lang);
+                    case 'honors-awards':
+                        labelText = this.getText('honorsAndAwards', {}, lang);
                         break;
                     case 'teaching':
                         labelText = this.getText('teaching', {}, lang);
@@ -1040,7 +1047,7 @@ class LanguageManager {
                         labelText = this.getText('reviewer', {}, lang);
                         break;
                     default:
-                        labelText = this.getText('employment', {}, lang);
+                        labelText = this.getText('education', {}, lang);
                 }
                 compactTabTrigger.textContent = labelText;
             }
@@ -1057,8 +1064,8 @@ class LanguageManager {
                     case 'education':
                         optionText = this.getText('education', {}, lang);
                         break;
-                    case 'honors':
-                        optionText = this.getText('honors', {}, lang);
+                    case 'honors-awards':
+                        optionText = this.getText('honorsAndAwards', {}, lang);
                         break;
                     case 'teaching':
                         optionText = this.getText('teaching', {}, lang);
@@ -1067,7 +1074,7 @@ class LanguageManager {
                         optionText = this.getText('reviewer', {}, lang);
                         break;
                     default:
-                        optionText = this.getText('employment', {}, lang);
+                        optionText = this.getText('education', {}, lang);
                 }
                 option.textContent = optionText;
             });
@@ -1076,10 +1083,17 @@ class LanguageManager {
         // Update publications section tabs | 更新发表物部分标签页
         const publicationsSection = document.getElementById('publications-section');
         if (publicationsSection) {
+            // Get the currently active tab | 获取当前活动标签页
+            const activeTabPane = publicationsSection.querySelector('.tab-pane.active');
+            let activeTabId = 'paper'; // Default to paper | 默认为论文
+            
+            if (activeTabPane) {
+                activeTabId = activeTabPane.id;
+            }
+            
             // Update compact tab trigger button | 更新紧凑型标签页触发按钮
             const compactTabTrigger = publicationsSection.querySelector('.compact-tab-button');
             if (compactTabTrigger) {
-                const activeTabId = compactTabTrigger.getAttribute('data-active-tab') || 'paper';
                 // Get the appropriate text based on the active tab | 根据活动标签页获取适当的文本
                 let labelText = '';
                 switch (activeTabId) {
