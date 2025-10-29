@@ -27,8 +27,8 @@ body.light-theme {
     --employment-color: #f39c12;
     --honor-color: #9b59b6;
     --teaching-color: #1abc9c;
-    --reviewer-color: #34495e;
-    --patent-color: #e67e22;
+    --reviewer-color: #02bd14;
+    --patent-color: #8eb446;
     
     --module-card-bg: #ffffff;
     --module-border-color: rgba(0, 0, 0, 0.15);
@@ -454,6 +454,19 @@ body.light-theme .info-icon {
     body.light-theme .news-section {
         background: rgba(255, 255, 255, 0.9);
         border: 1px solid rgba(66, 133, 244, 0.2);
+    }
+    
+    /* Override tab-pane styles for mobile | 移动端覆盖tab-pane样式 */
+    body.light-theme .tab-pane {
+        display: none;
+    }
+    
+    body.light-theme .tab-pane.active {
+        display: block;
+        background-color: var(--module-card-bg);
+        outline: initial;
+        border: 1px solid var(--module-border-color);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 }
 
