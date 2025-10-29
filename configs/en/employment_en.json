@@ -8,6 +8,12 @@
                 "department": "Excursion Lab",
                 "time": "2025.9 - Present",
                 "project": "Project Title"
+            },
+            {
+                "position": "Intern",
+                "department": "Computer Science Department",
+                "time": "2024.9 - 2025.6",
+                "project": "Project Title"
             }
         ]
     }

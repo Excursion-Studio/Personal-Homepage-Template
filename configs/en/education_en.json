@@ -5,6 +5,13 @@
     "details": 
     [
       {
+        "degree": "Master of Engineering",
+        "major": "Computer Science", 
+        "college": "School of Computer Science",
+        "time": "2025.9 - Present",
+        "tutor": "Prof. A. B. C."
+      },
+      {
         "degree": "Bachelor of Engineering",
         "major": "Mechanical Engineering", 
         "college": "School of Mechanical Engineering",

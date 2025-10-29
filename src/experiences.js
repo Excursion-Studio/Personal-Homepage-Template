@@ -172,35 +172,40 @@ function createEducationModule(educationData) {
     });
     educationModule.contentWrapper.appendChild(header);
     
-    // Process each education detail | 处理每个教育详情
-    educationData.details.forEach(detail => {
-        // Create columns layout for each degree | 为每个学位创建列布局
-        const columns = ModuleContainerFactory.createColumns({
-            columnCount: 2,
-            columnWidths: [1, 2],
-            columnClasses: ['edu-logo-column', 'edu-info-column']
+    // Create columns layout for the entire school | 为整个学校创建列布局
+    const columns = ModuleContainerFactory.createColumns({
+        columnCount: 2,
+        columnWidths: [1, 2],
+        columnClasses: ['edu-logo-column', 'edu-info-column']
+    });
+    educationModule.contentWrapper.appendChild(columns.container);
+    
+    // Add school logo if available | 如果可用，添加学校标志
+    if (educationData.logoSrc) {
+        ModuleContainerFactory.insertImage({
+            imagePath: `images/experience/${educationData.logoSrc}`,
+            altText: `${educationData.school} logo`,
+            size: { width: '125px', height: 'auto' },
+            position: 'center',
+            container: columns.columns[0],
+            clickable: true
         });
-        educationModule.contentWrapper.appendChild(columns.container);
-        
-        // Add school logo if available | 如果可用，添加学校标志
-        if (educationData.logoSrc) {
-            ModuleContainerFactory.insertImage({
-                imagePath: `images/experience/${educationData.logoSrc}`,
-                altText: `${educationData.school} logo`,
-                size: { width: '125px', height: 'auto' },
-                position: 'center',
-                container: columns.columns[0],
-                clickable: true
-            });
-        }
+    }
+    
+    // Process all education details for this school in the same column | 在同一列中处理此学校的所有教育详情
+    educationData.details.forEach((detail, index) => {
+        // Add some spacing between multiple degrees from the same school | 在同一学校的多个学位之间添加一些间距
+        const spacingClass = index > 0 ? 'multiple-degree-spacing' : '';
         
         // Add education information | 添加教育信息
         const degreeInfo = ModuleContainerFactory.createContent({
-            content: `<p><strong>${detail.degree}</strong></p>` +
-                     `<p>${detail.major}, ${detail.college}</p>` +
-                     `<p><strong>${window.languageManager ? window.languageManager.getText('time') : 'Time'}:</strong> ${detail.time}</p>` +
-                     (detail.tutor ? `<p><strong>${window.languageManager ? window.languageManager.getText('tutor') : 'Tutor'}:</strong> ${detail.tutor}</p>` : '') +
-                     (detail.dissertation ? `<p><strong>${window.languageManager ? window.languageManager.getText('dissertation') : 'Dissertation'}:</strong> ${detail.dissertation}</p>` : ''),
+            content: `<div class="education-degree ${spacingClass}">
+                <p><strong>${detail.degree}</strong></p>
+                <p>${detail.major}, ${detail.college}</p>
+                <p><strong>${window.languageManager ? window.languageManager.getText('time') : 'Time'}:</strong> ${detail.time}</p>
+                ${detail.tutor ? `<p><strong>${window.languageManager ? window.languageManager.getText('tutor') : 'Tutor'}:</strong> ${detail.tutor}</p>` : ''}
+                ${detail.dissertation ? `<p><strong>${window.languageManager ? window.languageManager.getText('dissertation') : 'Dissertation'}:</strong> ${detail.dissertation}</p>` : ''}
+            </div>`,
             contentType: 'html',
             contentClass: 'education-info',
             style: {
@@ -229,34 +234,39 @@ function createEmploymentModule(employmentData) {
     });
     employmentModule.contentWrapper.appendChild(header);
     
-    // Process each employment detail | 处理每个就业详情
-    employmentData.details.forEach(detail => {
-        // Create columns layout for each job | 为每个工作创建列布局
-        const columns = ModuleContainerFactory.createColumns({
-            columnCount: 2,
-            columnWidths: [1, 2],
-            columnClasses: ['emp-logo-column', 'emp-info-column']
+    // Create columns layout for the entire company | 为整个公司创建列布局
+    const columns = ModuleContainerFactory.createColumns({
+        columnCount: 2,
+        columnWidths: [1, 2],
+        columnClasses: ['emp-logo-column', 'emp-info-column']
+    });
+    employmentModule.contentWrapper.appendChild(columns.container);
+    
+    // Add company logo if available | 如果可用，添加公司标志
+    if (employmentData.logoSrc) {
+        ModuleContainerFactory.insertImage({
+            imagePath: `images/experience/${employmentData.logoSrc}`,
+            altText: `${employmentData.company} logo`,
+            size: { width: '125px', height: 'auto' },
+            position: 'center',
+            container: columns.columns[0],
+            clickable: true
         });
-        employmentModule.contentWrapper.appendChild(columns.container);
-        
-        // Add company logo if available | 如果可用，添加公司标志
-        if (employmentData.logoSrc) {
-            ModuleContainerFactory.insertImage({
-                imagePath: `images/experience/${employmentData.logoSrc}`,
-                altText: `${employmentData.company} logo`,
-                size: { width: '125px', height: 'auto' },
-                position: 'center',
-                container: columns.columns[0],
-                clickable: true
-            });
-        }
+    }
+    
+    // Process all employment details for this company in the same column | 在同一列中处理此公司的所有就业详情
+    employmentData.details.forEach((detail, index) => {
+        // Add some spacing between multiple positions from the same company | 在同一公司的多个职位之间添加一些间距
+        const spacingClass = index > 0 ? 'multiple-position-spacing' : '';
         
         // Add employment information | 添加就业信息
         const jobInfo = ModuleContainerFactory.createContent({
-            content: `<p><strong>${detail.position}</strong></p>` +
-                     `<p>${detail.department}, ${employmentData.company}</p>` +
-                     `<p><strong>${window.languageManager ? window.languageManager.getText('time') : 'Time'}:</strong> ${detail.time}</p>` +
-                     (detail.project ? `<p><strong>${window.languageManager ? window.languageManager.getText('project') : 'Project'}:</strong> ${detail.project}</p>` : ''),
+            content: `<div class="employment-position ${spacingClass}">
+                <p><strong>${detail.position}</strong></p>
+                <p>${detail.department}, ${employmentData.company}</p>
+                <p><strong>${window.languageManager ? window.languageManager.getText('time') : 'Time'}:</strong> ${detail.time}</p>
+                ${detail.project ? `<p><strong>${window.languageManager ? window.languageManager.getText('project') : 'Project'}:</strong> ${detail.project}</p>` : ''}
+            </div>`,
             contentType: 'html',
             contentClass: 'employment-info',
             style: {

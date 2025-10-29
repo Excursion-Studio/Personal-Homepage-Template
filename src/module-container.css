@@ -258,6 +258,13 @@
     font-size: 0.95rem;
 }
 
+/* Spacing for multiple degrees from the same school | 同一学校多个学位的间距 */
+.multiple-degree-spacing {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border-color);
+}
+
 /* Employment Info Styles | 就业信息样式 */
 .module-container.employment .employment-info {
     margin-bottom: 15px;
@@ -295,6 +302,13 @@
 .module-container.employment .employment-info p:nth-child(4) {
     color: var(--text-color);
     font-size: 1rem;
+}
+
+/* Spacing for multiple positions from the same company | 同一公司多个职位的间距 */
+.multiple-position-spacing {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border-color);
 }
 
 /* Employment column specific styles | 就业列特定样式 */

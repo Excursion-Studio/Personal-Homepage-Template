@@ -5,6 +5,13 @@
     "details": 
     [
       {
+        "degree": "工学硕士",
+        "major": "计算机科学与技术", 
+        "college": "计算机科学与技术学院",
+        "time": "2025.9 - 今",
+        "tutor": "Prof. A. B. C."
+      },
+      {
         "degree": "工学学士",
         "major": "机械工程", 
         "college": "机械工程学院",
