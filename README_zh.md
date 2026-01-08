@@ -32,7 +32,6 @@ Personal-Homepage-Template/
 ├── images/                   # 图片资源
 │   ├── experience/           # 经历相关图片
 │   ├── homepage/             # 主页相关图片
-│   │   ├── favicon/          # 网页图标
 │   │   ├── info icon/        # 信息图标
 │   │   └── photo/            # 个人照片
 │   └── publication/          # 出版物相关图片
@@ -316,8 +315,7 @@ Personal-Homepage-Template/
 1. 将学校/公司logo添加到 `images/experience/` 目录
 2. 将论文相关图片添加到 `images/publication/` 目录
 3. 将个人照片添加到 `images/homepage/photo/` 目录
-4. 将网站图标添加到 `images/homepage/favicon/` 目录
-5. 将信息图标添加到 `images/homepage/info icon/` 目录
+4. 将信息图标添加到 `images/homepage/info icon/` 目录
 
 ## 功能说明
 

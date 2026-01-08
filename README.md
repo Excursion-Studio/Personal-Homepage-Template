@@ -32,7 +32,6 @@ Personal-Homepage-Template/
 ├── images/                   # Image resources
 │   ├── experience/           # Experience-related images
 │   ├── homepage/             # Homepage-related images
-│   │   ├── favicon/          # Website icons
 │   │   ├── info icon/        # Information icons
 │   │   └── photo/            # Personal photos
 │   └── publication/          # Publication-related images
@@ -316,8 +315,7 @@ Personal introduction is displayed in the first column on the right side of the 
 1. Add school/company logos to the `images/experience/` directory
 2. Add paper-related images to the `images/publication/` directory
 3. Add personal photos to the `images/homepage/photo/` directory
-4. Add website icons to the `images/homepage/favicon/` directory
-5. Add information icons to the `images/homepage/info icon/` directory
+4. Add information icons to the `images/homepage/info icon/` directory
 
 ## Feature Guide
 
