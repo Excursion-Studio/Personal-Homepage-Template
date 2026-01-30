@@ -2,6 +2,10 @@
 
 English Version | [中文版](README_zh.md)
 
+ESPH V2 has been officially published! This **React**-based project starts more rapidly and smoothly! Click [here](https://github.com/Excursion-Studio/Personal-Homepage-Template-v2) for detail!
+
+---
+
 ESPH Template is a comprehensive personal academic homepage template with bilingual support (English/Chinese) and light/dark theme switching, perfect for academics, researchers, or anyone looking to showcase their personal experience and achievements.
 
 The sample page can be previewed by clicking [here](https://excursion-studio.github.io/Personal-Homepage-Template/).
