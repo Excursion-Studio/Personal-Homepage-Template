@@ -2,6 +2,10 @@
 
 [English Version](README.md) | 中文版
 
+全新的 ESPH V2 正式发布！采用 **React** 框架构建，启动更快更稳定！点击[此处](https://github.com/Excursion-Studio/Personal-Homepage-Template-v2)查看详情！
+
+---
+
 ESPH 模板是一个功能完整的个人学术主页模板，支持中英文双语切换和亮暗主题切换，适合学术人员、研究人员或任何需要展示个人经历和成果的人士使用。
 
 示例页面可以点击[这里](https://excursion-studio.github.io/Personal-Homepage-Template/)预览。
