@@ -381,4 +381,4 @@ A:
 如有任何问题或建议，请通过以下方式联系：
 
 - GitHub: [https://github.com/Excursion-Studio](https://github.com/Excursion-Studio)
-- Email: [conshein_yuanxing@outlook.com](mailto:conshein_yuanxing@outlook.com) （工作室主理人远行的个人邮箱）
+- Email: [excursion-studio@outlook.com](mailto:excursion-studio@outlook.com) （工作室邮箱）
