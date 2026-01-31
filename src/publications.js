@@ -203,7 +203,7 @@ function createPaperModule(paperData) {
             // Add paper information | 添加论文信息 (remove title as it's now in header)
             const paperInfo = ModuleContainerFactory.createContent({
                 content: `<p>${detail.authors}</p>` +
-                        `<p><em>${detail.conference || detail.journal} (${detail.abbr})${(detail.location || detail.volume) ? `, ${detail.location || detail.volume}` : ''}</em></p>` +
+                        `<p><em>${detail.conference || detail.journal}</em></p>` +
                         (detail.type ? `<p><strong>${window.languageManager ? window.languageManager.getText('type', {}, window.languageManager.getCurrentLanguage()) : 'Type'}:</strong> ${detail.type}</p>` : ''),
                 contentType: 'html',
                 contentClass: 'education-info',
