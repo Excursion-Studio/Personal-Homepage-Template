@@ -204,8 +204,6 @@ Academic papers are displayed in the first tab of the Publications section. Add 
             // You can use the <u> tag to underline yourself
             "type": "Paper type, such as Conference / Journal / Workshop / In submission",
             "journal": "Journal Name", // If it's a conference or workshop, replace this line with "conference": "Conference Name"
-            "abbr": "Journal/Conference abbreviation",
-            "volume": "Volume", // If it's a conference or workshop, replace this line with "location": "Conference location", for In submission, don't fill this line
             "image": "paper_image.png", // Paper image path, supports .png, .jpg, .gif and other formats, placed in images/publications
             "paperLink": "Paper link",
             "codeLink": "Code link",
