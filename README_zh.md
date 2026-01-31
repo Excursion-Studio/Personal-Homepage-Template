@@ -204,8 +204,6 @@ Personal-Homepage-Template/
             // 可以通过 <u> 标签，通过下划线来标注自己
             "type": "论文类型，比如 Conference / Journal / Workshop / In submission",
             "journal": "期刊名称",  // 如果投的是会议或者参加研讨会，就把本行换成 "conference": "会议名称"
-            "abbr": "期刊/会议简称",
-            "volume": "卷", // 如果投的是会议或者参加研讨会，就把本行换成 "location": "会议地点"，In submission 就不填这一行
             "image": "论文图片.png", // 论文图片路径，支持 .png, .jpg, .gif等格式，放在 images/publications 中
             "paperLink": "论文链接",
             "codeLink": "代码链接",
